@@ -1,15 +1,27 @@
 package net.lotrcraft.strategycraft;
 
+import java.util.Map;
+import java.util.TreeMap;
+
+import net.lotrcraft.strategycraft.buildings.Building;
+import net.lotrcraft.strategycraft.buildings.Castle;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.util.config.Configuration;
+import org.bukkit.util.config.ConfigurationNode;
 
 public class Config {
 	
 	public static int coreBlock;
+	public static Map<String, Building> buildings = new TreeMap<String, Building>();
+	static Building tmpB;
 
 	public static void loadConf(Configuration config) {
 		coreBlock =  getInt("coreBlock", 49);
+		
+		tmpB = new Castle();
+		buildings.put("Castle", tmpB);
 		
 	}
 	

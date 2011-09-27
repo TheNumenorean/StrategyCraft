@@ -6,8 +6,10 @@ public class Building {
 	
 	int[][][] blocks;
 	
-	void build(Location l){
-		for 
+	boolean build(Location l){
+		return false;
+		
 	}
+
 
 }
