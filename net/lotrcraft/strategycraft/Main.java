@@ -27,8 +27,8 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		pm = this.getServer().getPluginManager();
-		pm.registerEvent(Type.BLOCK_DAMAGE, new BlockDamageListener(), Priority.Normal, this);
-		pm.registerEvent(Type.BLOCK_PLACE, new BlockPlaceListener(), Priority.Normal, this);
+		//pm.registerEvent(Type.BLOCK_DAMAGE, new BlockDamageListener(), Priority.Normal, this);
+		//pm.registerEvent(Type.BLOCK_PLACE, new BlockPlaceListener(), Priority.Normal, this);
 		pm.registerEvent(Type.SIGN_CHANGE, new SignPlaced(), Priority.Normal, this);
 		
 		config = this.getConfiguration();

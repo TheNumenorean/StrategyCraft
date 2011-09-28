@@ -16,12 +16,12 @@ import org.bukkit.util.config.ConfigurationNode;
 public class Config {
 	
 	public static int coreBlock;
-	public static Map<Player, Castle> castles = new TreeMap<Player, Castle>();
+	public static Map<String, Castle> castles = new TreeMap<String, Castle>();
 	public static Map<String, Building> bldgs = new TreeMap<String, Building>();
 	static Building tmpB;
 	
-	public static void createNewCastle(Player p, Location l){
-		castles.put(p, new Castle(l));
+	public static void createNewCastle(String name, Location l){
+		castles.put(name, new Castle(l));
 	}
 
 	public static void loadConf() {

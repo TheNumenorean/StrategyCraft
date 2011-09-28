@@ -14,40 +14,42 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.material.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockListener;
 import org.bukkit.event.block.SignChangeEvent;
 
-public class SignPlaced implements Listener {
+public class SignPlaced extends BlockListener {
 
 	public void onSignChange(SignChangeEvent event) {
 
 		String[] lines = event.getLines();
 		Block block = event.getBlock();
-		Sign sign = (Sign) block;
+		Sign sign = (Sign) event.getBlock().getState().getData();
 		Chunk chunk = block.getChunk();
-		Location l = block.getLocation();
+		Block baseBlock = block.getRelative(sign.getAttachedFace());
+		Location blockLoc = baseBlock.getLocation();
 		Player player = event.getPlayer();
 		Building building = new Building();
 
-		int x = block.getX();
-		int y = block.getY();
-		int z = block.getZ();
+		int x = baseBlock.getX();
+		int y = baseBlock.getY();
+		int z = baseBlock.getZ();
 		
-		if (!lines[0].equals("[StrategyCraft]"))
+		if (!lines[0].equals("StrategyCraft"))
 			return;
 
-		if (sign.isWallSign() && block.getRelative(sign.getAttachedFace()).getTypeId() == Config.coreBlock) {
+		if (sign.isWallSign() && baseBlock.getTypeId() == Config.coreBlock) {
 			if (lines[1].equalsIgnoreCase("Castle")){
-				if (Config.castles.get(player) != null) {
-					event.setLine(1, ChatColor.RED + lines[0]);
-					player.sendMessage("You already own a Castle!");
+				if (Config.castles.get(player.getName()) != null) {
+					event.setLine(0, ChatColor.RED + lines[0]);
+					player.sendMessage(ChatColor.DARK_RED + "You already own a Castle!");
 				} else {
-					Config.createNewCastle(player, l);
-					event.setLine(1, ChatColor.GREEN + lines[0]);
-					player.sendMessage("Castle created!");
+					Config.createNewCastle(player.getName(), blockLoc);
+					event.setLine(0, ChatColor.GREEN + lines[0]);
+					player.sendMessage(ChatColor.GOLD + "Castle created!");
 				}
 			}
 			else if ((building = Config.bldgs.get(lines[1])) == null){
-				event.setLine(1, ChatColor.RED + lines[0]);
+				event.setLine(0, ChatColor.RED + lines[0]);
 				player.sendMessage("Building doesn't exist!");
 			} else{
 				
