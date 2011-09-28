@@ -32,7 +32,7 @@ public class Main extends JavaPlugin {
 		pm.registerEvent(Type.SIGN_CHANGE, new SignPlaced(), Priority.Normal, this);
 		
 		config = this.getConfiguration();
-		Config.loadConf(config);
+		Config.loadConf();
 		
 		log.info("StrategyCraft enabled!");
 	}

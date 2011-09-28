@@ -6,22 +6,29 @@ import java.util.TreeMap;
 import net.lotrcraft.strategycraft.buildings.Building;
 import net.lotrcraft.strategycraft.buildings.Castle;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.util.config.Configuration;
 import org.bukkit.util.config.ConfigurationNode;
 
 public class Config {
 	
 	public static int coreBlock;
-	public static Map<String, Building> buildings = new TreeMap<String, Building>();
+	public static Map<Player, Castle> castles = new TreeMap<Player, Castle>();
+	public static Map<String, Building> bldgs = new TreeMap<String, Building>();
 	static Building tmpB;
+	
+	public static void createNewCastle(Player p, Location l){
+		castles.put(p, new Castle(l));
+	}
 
-	public static void loadConf(Configuration config) {
+	public static void loadConf() {
 		coreBlock =  getInt("coreBlock", 49);
 		
-		tmpB = new Castle();
-		buildings.put("Castle", tmpB);
+		tmpB = new Building();
+		bldgs.put("Castle", tmpB);
 		
 	}
 	

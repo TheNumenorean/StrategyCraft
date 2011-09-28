@@ -4,10 +4,15 @@ import org.bukkit.Location;
 
 public class Building {
 	
-	int[][][] blocks;
+	Location l;
 	
 	boolean build(Location l){
+		this.l = l;
+		
 		return false;
+	}
+	
+	void destroy(){
 		
 	}
 

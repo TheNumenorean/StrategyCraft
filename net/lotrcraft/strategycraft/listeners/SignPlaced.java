@@ -36,10 +36,20 @@ public class SignPlaced implements Listener {
 			return;
 
 		if (sign.isWallSign() && block.getRelative(sign.getAttachedFace()).getTypeId() == Config.coreBlock) {
-			if ((building = Config.buildings.get(lines[1])) == null){
+			if (lines[1].equalsIgnoreCase("Castle")){
+				if (Config.castles.get(player) != null) {
+					event.setLine(1, ChatColor.RED + lines[0]);
+					player.sendMessage("You already own a Castle!");
+				} else {
+					Config.createNewCastle(player, l);
+					event.setLine(1, ChatColor.GREEN + lines[0]);
+					player.sendMessage("Castle created!");
+				}
+			}
+			else if ((building = Config.bldgs.get(lines[1])) == null){
 				event.setLine(1, ChatColor.RED + lines[0]);
 				player.sendMessage("Building doesn't exist!");
-			} else if (!building.build(l, player)){
+			} else{
 				
 			}
 
