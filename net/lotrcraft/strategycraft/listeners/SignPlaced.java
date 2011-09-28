@@ -1,19 +1,15 @@
 package net.lotrcraft.strategycraft.listeners;
 
-import java.util.ArrayList;
-
 import net.lotrcraft.strategycraft.Config;
 import net.lotrcraft.strategycraft.buildings.Building;
+import net.lotrcraft.strategycraft.buildings.BuildingManager;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.material.Sign;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockListener;
 import org.bukkit.event.block.SignChangeEvent;
 
@@ -39,16 +35,16 @@ public class SignPlaced extends BlockListener {
 
 		if (sign.isWallSign() && baseBlock.getTypeId() == Config.coreBlock) {
 			if (lines[1].equalsIgnoreCase("Castle")){
-				if (Config.castles.get(player.getName()) != null) {
+				if (BuildingManager.getCastle(player.getName()) != null) {
 					event.setLine(0, ChatColor.RED + lines[0]);
 					player.sendMessage(ChatColor.DARK_RED + "You already own a Castle!");
 				} else {
-					Config.createNewCastle(player.getName(), blockLoc);
+					BuildingManager.createNewCastle(player.getName(), blockLoc);
 					event.setLine(0, ChatColor.GREEN + lines[0]);
 					player.sendMessage(ChatColor.GOLD + "Castle created!");
 				}
 			}
-			else if ((building = Config.bldgs.get(lines[1])) == null){
+			else if ((building = BuildingManager.getBuilding(lines[1])) == null){
 				event.setLine(0, ChatColor.RED + lines[0]);
 				player.sendMessage("Building doesn't exist!");
 			} else{

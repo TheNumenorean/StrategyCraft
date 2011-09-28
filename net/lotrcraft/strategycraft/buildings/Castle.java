@@ -17,12 +17,20 @@ public class Castle {
 		citadel.build(l);
 		createNewCastle();
 	}
+	
+	public Castle(){
+		
+	}
 
 
 	private void createNewCastle() {
 		buildings.add(citadel);
 		
 		
+	}
+	
+	void addBuilding(Building building){
+		buildings.add(building);
 	}
 	
 

@@ -1,5 +1,10 @@
 package net.lotrcraft.strategycraft.buildings;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.logging.Logger;
+
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -13,6 +18,12 @@ public class Citadel extends Building {
 	Location l;
 	Block block;
 	int x, y, z;
+	String name;
+	public static Logger log = Logger.getLogger("minecraft");
+	
+	String getName(){
+		return name;
+	}
 	
 	void build(Location l){
 		this.l = l;
@@ -42,6 +53,11 @@ public class Citadel extends Building {
 	
 	void destroy(){
 		
+	}
+	
+	void onLoad() throws FileNotFoundException{
+		Schematic house = new Schematic(new FileInputStream(new File(
+				"house.schematic")));
 	}
 	
 	

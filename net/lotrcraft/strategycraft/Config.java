@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import net.lotrcraft.strategycraft.buildings.Building;
+import net.lotrcraft.strategycraft.buildings.BuildingManager;
 import net.lotrcraft.strategycraft.buildings.Castle;
 
 import org.bukkit.Location;
@@ -16,19 +17,17 @@ import org.bukkit.util.config.ConfigurationNode;
 public class Config {
 	
 	public static int coreBlock;
-	public static Map<String, Castle> castles = new TreeMap<String, Castle>();
-	public static Map<String, Building> bldgs = new TreeMap<String, Building>();
+
 	static Building tmpB;
-	
-	public static void createNewCastle(String name, Location l){
-		castles.put(name, new Castle(l));
-	}
 
 	public static void loadConf() {
 		coreBlock =  getInt("coreBlock", 49);
 		
 		tmpB = new Building();
-		bldgs.put("Castle", tmpB);
+		tmpC = new Castle();
+		BuildingManager.addBuildingToCastle(tmpC, tmpB);
+		
+		Location location = new Location(null, coreBlock, coreBlock, coreBlock);
 		
 	}
 	
