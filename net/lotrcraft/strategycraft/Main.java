@@ -6,6 +6,7 @@ import net.lotrcraft.strategycraft.listeners.BlockDamageListener;
 import net.lotrcraft.strategycraft.listeners.BlockPlaceListener;
 import net.lotrcraft.strategycraft.listeners.SignPlaced;
 
+import org.bukkit.Bukkit;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.plugin.PluginManager;
@@ -30,6 +31,8 @@ public class Main extends JavaPlugin {
 		//pm.registerEvent(Type.BLOCK_DAMAGE, new BlockDamageListener(), Priority.Normal, this);
 		//pm.registerEvent(Type.BLOCK_PLACE, new BlockPlaceListener(), Priority.Normal, this);
 		pm.registerEvent(Type.SIGN_CHANGE, new SignPlaced(), Priority.Normal, this);
+		
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, Config.saveConfs(), Config.saveFrequency, 0);
 		
 		config = this.getConfiguration();
 		Config.loadConf();

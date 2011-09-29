@@ -26,9 +26,11 @@ public class BuildingManager {
 		return true;
 	}
 	
+	/*
 	public static boolean addBuildingToCastle(Castle castle, Building building){
-		
+		castle.addBuilding(building)
 	}
+	*/
 	
 	public static void createNewCastle(String name, Location l){
 		castles.put(name, new Castle(l));

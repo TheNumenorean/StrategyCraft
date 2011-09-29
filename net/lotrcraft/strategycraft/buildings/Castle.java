@@ -6,9 +6,9 @@ import java.util.List;
 import org.bukkit.Location;
 
 public class Castle {
-	List<Building> buildings = new ArrayList();
-	Location l;
-	Citadel citadel;
+	private List<Building> buildings = new ArrayList();
+	private Location l;
+	private Citadel citadel;
 	
 	
 	public Castle (Location l){
@@ -31,6 +31,10 @@ public class Castle {
 	
 	void addBuilding(Building building){
 		buildings.add(building);
+	}
+	
+	Location getLocation(){
+		return l;
 	}
 	
 
