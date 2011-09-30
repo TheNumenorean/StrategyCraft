@@ -27,15 +27,18 @@ public class Main extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
+		
+		config = this.getConfiguration();
+		Config.load();
+		
 		pm = this.getServer().getPluginManager();
 		pm.registerEvent(Type.BLOCK_DAMAGE, new BlockDamageListener(), Priority.Normal, this);
 		//pm.registerEvent(Type.BLOCK_PLACE, new BlockPlaceListener(), Priority.Normal, this);
 		pm.registerEvent(Type.SIGN_CHANGE, new SignPlaced(), Priority.Normal, this);
 		
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, Config.saveConfs(), Config.saveFrequency, 0);
+		Bukkit.getScheduler().scheduleAsyncRepeatingTask(this, Config.saveConfs(), Config.saveFrequency, Config.saveFrequency);
 		
-		config = this.getConfiguration();
-		Config.loadConf();
+
 		
 		log.info("StrategyCraft enabled!");
 	}

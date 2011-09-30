@@ -16,7 +16,7 @@ public class BlockDamageListener extends BlockListener {
 	public void onBlockDamage(BlockDamageEvent e){
 		if ((castle = BuildingManager.getCastleAtLoc(e.getBlock().getLocation())) != null){
 			if (!castle.isBuildingLeft()){
-				castle.destroy();
+				BuildingManager.destroyCastle(castle);
 			}
 		}else if (BuildingManager.getBuildingAtLoc(e.getBlock().getLocation()) != null){
 			

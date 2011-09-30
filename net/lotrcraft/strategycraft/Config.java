@@ -9,6 +9,7 @@ import net.lotrcraft.strategycraft.buildings.Castle;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Creeper;
 import org.bukkit.util.config.Configuration;
 
 public class Config {
@@ -24,12 +25,14 @@ public class Config {
 	public static File playerDataFile;
 	public static long saveFrequency = 600;
 
-	public static void loadConf() {
+	public static void load() {
 	
 		Configuration config = Main.config;
 		config.load();
-		coreBlock =  getInt("coreBlock", 49, config);
-		saveFrequency = getDouble("saveFrequency", 600, Main.config );
+		coreBlock =  getInt("coreBlock", 3, config);
+		saveFrequency = getInt("saveFrequency", 600, Main.config );
+		
+		Main.log.info("[StrategyCraft] Loading Castles...");
 		
 		if (!playerDataFolder.exists()){
 			playerDataFolder.mkdirs();
@@ -43,48 +46,56 @@ public class Config {
 				if (!playerFiles[counter].getName().endsWith(".yml"))
 					continue;
 				
+				String playerName = playerFiles[counter].getName().substring(0, playerFiles[counter].getName().indexOf('.'));
+				
 				playerDataFile = new File(playerDataFolder.getPath() + File.pathSeparator + playerFiles[counter]);
 				playerConfig = new Configuration(playerDataFile);
 				
-				if (isNull("Castle.Citadel.X", playerConfig))
+				if (isNull("Castle.Citadel.X", playerConfig)){
+					Main.log.info("[StrategyCraft] Config for " + playerName + " missing X for citadel. Rejecting...");
 					continue;
+				}
 				int x = playerConfig.getInt("Castle.Citadel.X", -1);
-				if (isNull("Castle.Citadel.Y", playerConfig))
+				if (isNull("Castle.Citadel.Y", playerConfig)){
+					Main.log.info("[StrategyCraft] Config for " + playerName + " missing Y for citadel. Rejecting...");
 					continue;
+				}
 				int y = playerConfig.getInt("Castle.Citadel.Y", -1);
-				if (isNull("Castle.Citadel.Z", playerConfig))
+				if (isNull("Castle.Citadel.Z", playerConfig)){
+					Main.log.info("[StrategyCraft] Config for " + playerName + " missing Z for citadel. Rejecting...");
 					continue;
+				}
 				int z = playerConfig.getInt("Castle.Citadel.Z", -1);
 				World world = Bukkit.getWorld(playerConfig.getString("Castle.Citadel.world", null));
 				
-				if (world == null) continue;
+				if (world == null) {
+					Main.log.info("[StrategyCraft] Config for " + playerName + " missing world for citadel. Rejecting...");
+					continue;
+				}
 				
 				Location location = new Location(world, x, y, z);
 				
-				castle = new Castle(location);
-				BuildingManager.addCastle(playerFiles[counter].getName().substring(0, playerFiles[counter].getName().indexOf('.')), castle);
+				castle = new Castle(location, playerName);
+				BuildingManager.addCastle(playerName, castle);
+				
+				Main.log.info("[StrategyCraft] Castle for " + playerName + " loaded!");
 				
 			}
 		}
 		
 		Main.config.save();
 	}
-	
-	private static long getDouble(String string, int i, Configuration config) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	public Object getProperty(String path, Object def, Configuration config) {
 		if(isNull(path, config))
 			return setProperty(path, def, config);
-		return Main.config.getProperty(path);
+		return config.getProperty(path);
 	}
 
 	public static int getInt(String path, Integer def, Configuration config) {
 		if(isNull(path, config))
 			return (Integer) setProperty(path, def, config);
-		return Main.config.getInt(path, def);
+		return config.getInt(path, def);
 	}
 
 	public static Boolean getBoolean(String path, Boolean def, Configuration config) {
@@ -94,7 +105,7 @@ public class Config {
 	}
 
 	private static Object setProperty(String path, Object val, Configuration config) {
-		Main.config.setProperty(path, val);
+		config.setProperty(path, val);
 		return val;
 	}
 
@@ -103,7 +114,36 @@ public class Config {
 	}
 
 	public static Runnable saveConfs() {
-		// TODO Auto-generated method stub
+		
+		if (BuildingManager.getCastles().isEmpty())
+			return null;
+		
+		Main.log.info("[StrategyCraft] Saving castles...");
+		
+		File file;
+		Castle[] c = (Castle[]) BuildingManager.getCastles().toArray();
+		
+		for (int y = 0; y < c.length; y++){
+			file = new File(File.pathSeparator + "StrategyCraft" + File.pathSeparator + "PlayerCastles" + File.pathSeparator + c[y].getOwner() + ".yml");
+			Configuration config = new Configuration(file);
+			
+			config.setProperty("Castle.Citadel.X", c[y].getLocation().getBlockX());
+			config.setProperty("Castle.Citadel.Y", c[y].getLocation().getBlockY());
+			config.setProperty("Castle.Citadel.Z", c[y].getLocation().getBlockZ());
+			config.setProperty("Castle.Citadel.World", c[y].getLocation().getWorld());
+			
+			Main.log.info("[StrategyCraft] Castle for " + c[y].getOwner() + " saved!");
+		}
+		
+		Main.log.info("[StrategyCraft] Finished saving!");
+		
 		return null;
+	}
+
+	public static void removePlayerConf(String owner) {
+		File file = new File(File.pathSeparator + "StrategyCraft" + File.pathSeparator + "PlayerCastles" + File.pathSeparator + owner + ".yml");
+		if (file.exists()){
+			file.delete();
+		}
 	}
 }

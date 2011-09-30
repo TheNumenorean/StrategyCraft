@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
+import net.lotrcraft.strategycraft.Config;
+
 import org.bukkit.Location;
 
 public class BuildingManager {
@@ -54,7 +56,7 @@ public class BuildingManager {
 	*/
 	
 	public static void createNewCastle(String name, Location l){
-		castles.put(name, new Castle(l));
+		castles.put(name, new Castle(l, name));
 	}
 
 	public static Castle getCastle(String playerName) {
@@ -68,6 +70,12 @@ public class BuildingManager {
 	public static Building getBuilding(String string) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public static void destroyCastle(Castle castle){
+		castle.destroy();
+		castles.remove(castle.getOwner());
+		Config.removePlayerConf(castle.getOwner());
 	}
 
 }
