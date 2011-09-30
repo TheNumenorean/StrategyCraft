@@ -23,14 +23,14 @@ public class Config {
 	static Castle castle;
 	public static File playerDataFolder = new File(File.separator + "StrategyCraft" + File.separator + "PlayerCastles");
 	public static File playerDataFile;
-	public static long saveFrequency = 600;
+	public static long saveFrequency;
 
 	public static void load() {
 	
 		Configuration config = Main.config;
 		config.load();
-		coreBlock =  getInt("coreBlock", 3, config);
-		saveFrequency = getInt("saveFrequency", 600, Main.config );
+		coreBlock =  getInt("coreBlock", 49, config);
+		saveFrequency = getInt("saveFrequency", 3600, Main.config );
 		
 		Main.log.info("[StrategyCraft] Loading Castles...");
 		
@@ -83,6 +83,8 @@ public class Config {
 			}
 		}
 		
+		Main.log.info("[StrategyCraft] Finished loading castles.");
+		
 		Main.config.save();
 	}
 
@@ -111,33 +113,6 @@ public class Config {
 
 	private static boolean isNull(String path, Configuration config) {
 		return Main.config.getProperty(path) == null;
-	}
-
-	public static Runnable saveConfs() {
-		
-		if (BuildingManager.getCastles().isEmpty())
-			return null;
-		
-		Main.log.info("[StrategyCraft] Saving castles...");
-		
-		File file;
-		Castle[] c = (Castle[]) BuildingManager.getCastles().toArray();
-		
-		for (int y = 0; y < c.length; y++){
-			file = new File(File.pathSeparator + "StrategyCraft" + File.pathSeparator + "PlayerCastles" + File.pathSeparator + c[y].getOwner() + ".yml");
-			Configuration config = new Configuration(file);
-			
-			config.setProperty("Castle.Citadel.X", c[y].getLocation().getBlockX());
-			config.setProperty("Castle.Citadel.Y", c[y].getLocation().getBlockY());
-			config.setProperty("Castle.Citadel.Z", c[y].getLocation().getBlockZ());
-			config.setProperty("Castle.Citadel.World", c[y].getLocation().getWorld());
-			
-			Main.log.info("[StrategyCraft] Castle for " + c[y].getOwner() + " saved!");
-		}
-		
-		Main.log.info("[StrategyCraft] Finished saving!");
-		
-		return null;
 	}
 
 	public static void removePlayerConf(String owner) {

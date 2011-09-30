@@ -2,7 +2,7 @@ package net.lotrcraft.strategycraft;
 
 import java.util.logging.Logger;
 
-import net.lotrcraft.strategycraft.listeners.BlockDamageListener;
+import net.lotrcraft.strategycraft.listeners.BlockBreakListener;
 import net.lotrcraft.strategycraft.listeners.BlockPlaceListener;
 import net.lotrcraft.strategycraft.listeners.SignPlaced;
 
@@ -32,11 +32,11 @@ public class Main extends JavaPlugin {
 		Config.load();
 		
 		pm = this.getServer().getPluginManager();
-		pm.registerEvent(Type.BLOCK_DAMAGE, new BlockDamageListener(), Priority.Normal, this);
+		pm.registerEvent(Type.BLOCK_BREAK, new BlockBreakListener(), Priority.Normal, this);
 		//pm.registerEvent(Type.BLOCK_PLACE, new BlockPlaceListener(), Priority.Normal, this);
 		pm.registerEvent(Type.SIGN_CHANGE, new SignPlaced(), Priority.Normal, this);
 		
-		Bukkit.getScheduler().scheduleAsyncRepeatingTask(this, Config.saveConfs(), Config.saveFrequency, Config.saveFrequency);
+		Bukkit.getScheduler().scheduleAsyncRepeatingTask(this, new ConfSaver(this), Config.saveFrequency, Config.saveFrequency);
 		
 
 		

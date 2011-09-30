@@ -1,6 +1,8 @@
 package net.lotrcraft.strategycraft.buildings;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -9,12 +11,12 @@ import net.lotrcraft.strategycraft.Config;
 import org.bukkit.Location;
 
 public class BuildingManager {
-	private static Map<String, Castle> castles = new TreeMap<String, Castle>();
+	private static List<Castle> castles = new ArrayList<Castle>();
 	private static Map<String, Building> bldgs = new TreeMap<String, Building>();
 	
 	public static boolean addCastle(String playerName, Castle castle){
-		if (!castles.containsKey(playerName)){
-			castles.put(playerName, castle);
+		if (!castles.contains(playerName)){
+			castles.add(castle);
 			return true;
 		}
 		return false;
@@ -29,16 +31,16 @@ public class BuildingManager {
 		return true;
 	}
 	
-	public static Collection<Castle> getCastles(){
-		return castles.values();
+	public static List<Castle> getCastles(){
+		return castles;
 	}
 	
 	public static Castle getCastleAtLoc(Location l){
-		Castle[] tmpC = (Castle[]) BuildingManager.getCastles().toArray();
+		List<Castle> tmpC = getCastles();
 		
-		for (int y = 0; y < tmpC.length; y++){
-			if (tmpC[y].getLocation().equals(l))
-				return tmpC[y];
+		for (int y = 0; y < tmpC.size(); y++){
+			if (tmpC.get(y).getLocation().equals(l))
+				return tmpC.get(y);
 		}
 		
 		return null;
@@ -56,15 +58,16 @@ public class BuildingManager {
 	*/
 	
 	public static void createNewCastle(String name, Location l){
-		castles.put(name, new Castle(l, name));
+		castles.add(new Castle(l, name));
 	}
 
 	public static Castle getCastle(String playerName) {
-		return castles.get(playerName);
-	}
-	
-	public static boolean castleExists(String playerName){
-		return castles.containsKey(playerName);
+		
+		for (int y = 0; y < castles.size(); y++){
+			if (castles.get(y).getOwner().equals(playerName))
+					return castles.get(y);
+		}
+		return null;
 	}
 
 	public static Building getBuilding(String string) {

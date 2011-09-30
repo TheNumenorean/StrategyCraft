@@ -30,9 +30,10 @@ public class SignPlaced extends BlockListener {
 		int y = baseBlock.getY();
 		int z = baseBlock.getZ();
 		
-		if (!lines[0].equals("StrategyCraft"))
+		if (!lines[0].equals("StrategyCraft")){
 			return;
-
+		}
+		
 		if (sign.isWallSign() && baseBlock.getTypeId() == Config.coreBlock) {
 			if (lines[1].equalsIgnoreCase("Castle")){
 				if (BuildingManager.getCastle(player.getName()) != null) {
