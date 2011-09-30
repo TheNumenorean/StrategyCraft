@@ -3,6 +3,7 @@ package net.lotrcraft.strategycraft;
 import java.io.File;
 
 import net.lotrcraft.strategycraft.buildings.Building;
+import net.lotrcraft.strategycraft.buildings.BuildingManager;
 import net.lotrcraft.strategycraft.buildings.Castle;
 
 import org.bukkit.Bukkit;
@@ -18,7 +19,7 @@ public class Config {
 	
 	Configuration playerConfig;
 	static Building tmpB;
-	static Castle tmpC;
+	static Castle castle;
 	public static File playerDataFolder = new File(File.separator + "StrategyCraft" + File.separator + "PlayerCastles");
 	public static File playerDataFile;
 	public static long saveFrequency = 600;
@@ -38,23 +39,33 @@ public class Config {
 			if (playerFiles == null) return;
 			
 			for (int counter = 0; counter < playerFiles.length; counter++){
+				
+				if (!playerFiles[counter].getName().endsWith(".yml"))
+					continue;
+				
 				playerDataFile = new File(playerDataFolder.getPath() + File.pathSeparator + playerFiles[counter]);
 				playerConfig = new Configuration(playerDataFile);
 				
+				if (isNull("Castle.Citadel.X", playerConfig))
+					continue;
 				int x = playerConfig.getInt("Castle.Citadel.X", -1);
+				if (isNull("Castle.Citadel.Y", playerConfig))
+					continue;
 				int y = playerConfig.getInt("Castle.Citadel.Y", -1);
+				if (isNull("Castle.Citadel.Z", playerConfig))
+					continue;
 				int z = playerConfig.getInt("Castle.Citadel.Z", -1);
 				World world = Bukkit.getWorld(playerConfig.getString("Castle.Citadel.world", null));
 				
-				if ((x | y | z) == -1 || world == null) continue;
+				if (world == null) continue;
 				
 				Location location = new Location(world, x, y, z);
 				
+				castle = new Castle(location);
+				BuildingManager.addCastle(playerFiles[counter].getName().substring(0, playerFiles[counter].getName().indexOf('.')), castle);
+				
 			}
 		}
-		
-		tmpB = new Building();
-		tmpC = new Castle();
 		
 		Main.config.save();
 	}

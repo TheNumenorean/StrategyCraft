@@ -1,5 +1,6 @@
 package net.lotrcraft.strategycraft.buildings;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -21,9 +22,29 @@ public class BuildingManager {
 		if (building.getName() == null || bldgs.containsKey(building.getName())){
 			return false;
 		}
-		
+
 		bldgs.put(building.getName(), building);
 		return true;
+	}
+	
+	public static Collection<Castle> getCastles(){
+		return castles.values();
+	}
+	
+	public static Castle getCastleAtLoc(Location l){
+		Castle[] tmpC = (Castle[]) BuildingManager.getCastles().toArray();
+		
+		for (int y = 0; y < tmpC.length; y++){
+			if (tmpC[y].getLocation().equals(l))
+				return tmpC[y];
+		}
+		
+		return null;
+	}
+	
+	public static Building getBuildingAtLoc(Location location){
+		Castle[] tmpC = (Castle[]) BuildingManager.getCastles().toArray();
+		return null;
 	}
 	
 	/*
