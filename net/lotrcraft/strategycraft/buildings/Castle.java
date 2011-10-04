@@ -24,9 +24,8 @@ public class Castle {
 		createNewCastle();
 	}
 	
-	public boolean getBuildingAtLoc(Location l){
-		return false;
-		
+	public Building getBuildingAtLoc(Location l){
+		return null;
 	}
 	
 	public boolean isBuildingLeft(){

@@ -48,6 +48,13 @@ public class BuildingManager {
 	
 	public static Building getBuildingAtLoc(Location location){
 		Castle[] tmpC = (Castle[]) BuildingManager.getCastles().toArray();
+		if (tmpC.length == 0)
+			return null;
+		for (int y = 0; y < tmpC.length; y++){
+			if (tmpC[y].getBuildingAtLoc(location) != null){
+				return tmpC[y].getBuildingAtLoc(location);
+			}
+		}
 		return null;
 	}
 	

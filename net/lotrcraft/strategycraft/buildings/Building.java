@@ -13,7 +13,7 @@ public abstract class Building {
 		for (int y = 0; y < s.getHeight(); y++){
 			for (int x = 0; x < s.getWidth(); x++){
 				for (int z = 0; z < s.getLength(); z++){
-					l.getWorld().getBlockAt(corner).setData(bytes[y][x][z]);
+					l.getWorld().getBlockAt(corner).setData(bytes[y + x + z]);
 				}
 			}
 		}
@@ -23,7 +23,12 @@ public abstract class Building {
 	abstract String getName();
 	
 	Schematic getSchematic(){
-		return new Schematic(getClass().getClassLoader().getResourceAsStream(getName + ".schematic"));
+		return new Schematic(getClass().getClassLoader().getResourceAsStream(getName() + ".schematic"));
+	}
+	
+	//TODO: does this work?
+	BuildingManager getBuildingManager(){
+		return new BuildingManager();
 	}
 
 
