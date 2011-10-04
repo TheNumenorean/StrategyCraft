@@ -24,7 +24,7 @@ public class SignPlaced extends BlockListener {
 		Block baseBlock = block.getRelative(sign.getAttachedFace());
 		Location blockLoc = baseBlock.getLocation();
 		Player player = event.getPlayer();
-		Building building = new Building();
+		Building building;
 
 		int x = baseBlock.getX();
 		int y = baseBlock.getY();

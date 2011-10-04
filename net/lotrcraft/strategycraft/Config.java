@@ -1,6 +1,7 @@
 package net.lotrcraft.strategycraft;
 
 import java.io.File;
+import java.io.IOException;
 
 import net.lotrcraft.strategycraft.buildings.Building;
 import net.lotrcraft.strategycraft.buildings.BuildingManager;
@@ -21,8 +22,9 @@ public class Config {
 	Configuration playerConfig;
 	static Building tmpB;
 	static Castle castle;
-	public static File playerDataFolder = new File(File.separator + "StrategyCraft" + File.separator + "PlayerCastles");
+	public static File playerDataFolder = new File("plugins" + File.separator + "StrategyCraft" + File.separator + "PlayerCastles");
 	public static File playerDataFile;
+	public static File schematicsFolder = new File("plugins" + File.separator + "StrategyCraft" + File.separator + "Buildings");
 	public static long saveFrequency;
 
 	public static void load() {
@@ -30,7 +32,7 @@ public class Config {
 		Configuration config = Main.config;
 		config.load();
 		coreBlock =  getInt("coreBlock", 49, config);
-		saveFrequency = getInt("saveFrequency", 3600, Main.config );
+		saveFrequency = getInt("saveFrequency", 3600, config );
 		
 		Main.log.info("[StrategyCraft] Loading Castles...");
 		
@@ -48,8 +50,14 @@ public class Config {
 				
 				String playerName = playerFiles[counter].getName().substring(0, playerFiles[counter].getName().indexOf('.'));
 				
-				playerDataFile = new File(playerDataFolder.getPath() + File.pathSeparator + playerFiles[counter]);
+				playerDataFile = new File("" + playerFiles[counter]);
+				
+				if (!playerDataFile.canRead()){
+					Main.log.warning("Can't read file!");
+				}
+				
 				playerConfig = new Configuration(playerDataFile);
+				playerConfig.load();
 				
 				if (isNull("Castle.Citadel.X", playerConfig)){
 					Main.log.info("[StrategyCraft] Config for " + playerName + " missing X for citadel. Rejecting...");
@@ -77,6 +85,8 @@ public class Config {
 				
 				castle = new Castle(location, playerName);
 				BuildingManager.addCastle(playerName, castle);
+				
+				playerConfig.save();
 				
 				Main.log.info("[StrategyCraft] Castle for " + playerName + " loaded!");
 				
@@ -112,7 +122,7 @@ public class Config {
 	}
 
 	private static boolean isNull(String path, Configuration config) {
-		return Main.config.getProperty(path) == null;
+		return config.getProperty(path) == null;
 	}
 
 	public static void removePlayerConf(String owner) {
