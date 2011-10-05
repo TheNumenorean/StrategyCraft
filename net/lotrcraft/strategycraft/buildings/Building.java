@@ -8,7 +8,7 @@ public abstract class Building {
 	
 	Location location;
 	
-	public void build(Location l){
+	void build(Location l){
 		Schematic s = getSchematic();
 		byte[] bytes = s.getBlocks();
 		
@@ -24,7 +24,7 @@ public abstract class Building {
 		
 	}
 	
-	public void destroy(){
+	void destroy(){
 		
 	}
 	
@@ -34,7 +34,6 @@ public abstract class Building {
 		return new Schematic(getClass().getClassLoader().getResourceAsStream(getName() + ".schematic"));
 	}
 	
-	//TODO: does this work?
 	BuildingManager getBuildingManager(){
 		return bm;
 	}

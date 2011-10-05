@@ -2,6 +2,7 @@ package net.lotrcraft.strategycraft;
 
 import java.util.logging.Logger;
 
+import net.lotrcraft.strategycraft.buildings.BuildingManager;
 import net.lotrcraft.strategycraft.listeners.BlockBreakListener;
 import net.lotrcraft.strategycraft.listeners.BlockPlaceListener;
 import net.lotrcraft.strategycraft.listeners.SignPlaced;
@@ -21,6 +22,7 @@ public class Main extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
+		new ConfSaver(this);
 		log.info("StrategyCraft disabled!");
 
 	}
@@ -39,6 +41,12 @@ public class Main extends JavaPlugin {
 		Bukkit.getScheduler().scheduleAsyncRepeatingTask(this, new ConfSaver(this), Config.saveFrequency, Config.saveFrequency);
 		
 
+		
+		if (BuildingManager.getBuilding("Citadel") == null) {
+			log.severe("[StrategyCraft] Can't find Citadel.jar! Disabling...");
+			this.pm.disablePlugin(this);
+			return;
+		}
 		
 		log.info("StrategyCraft enabled!");
 	}

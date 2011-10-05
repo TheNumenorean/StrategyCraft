@@ -12,7 +12,7 @@ import org.bukkit.Location;
 
 public class BuildingManager {
 	private static List<Castle> castles = new ArrayList<Castle>();
-	private static Map<String, Building> bldgs = new TreeMap<String, Building>();
+	private static Map<String, Class> bldgs = new TreeMap<String, Class>();
 	
 	public static boolean addCastle(String playerName, Castle castle){
 		if (!castles.contains(playerName)){
@@ -22,7 +22,7 @@ public class BuildingManager {
 		return false;
 	}
 	
-	public static boolean addBuildingType(Building building){
+	public static boolean addBuildingType(Class building){
 		if (building.getName() == null || bldgs.containsKey(building.getName())){
 			return false;
 		}
@@ -58,16 +58,26 @@ public class BuildingManager {
 		return null;
 	}
 	
-	/*
-	public static boolean addBuildingToCastle(Castle castle, Building building){
-		castle.addBuilding(building)
+	/**
+	 * This atempts to create a new castle by building a Citadel on the 
+	 * supplied coords.
+	 * 
+	 * @param name The player's name who built the castle
+	 * @param location The location to build the castle at
+	 * @return Whether this action was successful
+	 */
+	public static void createNewCastle(String name, Location location){
+		castles.add(new Castle(location, name));
 	}
-	*/
 	
-	public static void createNewCastle(String name, Location l){
-		castles.add(new Castle(l, name));
-	}
 
+	/**
+	 * Trys to find a castle owned by the named player.
+	 * If it cant find the castle, returns null.
+	 * 
+	 * @param playerName
+	 * @return The player's castle
+	 */
 	public static Castle getCastle(String playerName) {
 		
 		for (int y = 0; y < castles.size(); y++){
@@ -77,11 +87,23 @@ public class BuildingManager {
 		return null;
 	}
 
-	public static Building getBuilding(String string) {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * Finds and returns the class of the type of building specified. 
+	 * Returns null if it cant be found.
+	 * 
+	 * @param name Name of building
+	 * @return The Class of the building; null if it doesnt exist.
+	 */
+	public static Class<?> getBuilding(String name) {
+		return bldgs.get(name);
 	}
 	
+	/**
+	 * 
+	 * Completely destroys the supplied castle and its buildings.
+	 * 
+	 * @param castle The castle to be destroyed.
+	 */
 	public static void destroyCastle(Castle castle){
 		castle.destroy();
 		castles.remove(castle.getOwner());

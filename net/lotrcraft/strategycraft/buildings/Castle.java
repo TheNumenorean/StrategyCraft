@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 public class Castle {
 	private List<Building> buildings = new ArrayList<Building>();
 	private Location l;
-	private Citadel citadel;
+	private Building citadel;
 	private Player player;
 	private String playerName;
 	
@@ -19,7 +19,7 @@ public class Castle {
 		this.l = l;
 		this.player = Bukkit.getPlayerExact(playerName);
 		this.playerName = playerName;
-		citadel = new Citadel();
+		citadel = new (BuildingManager.getBuilding("Citadel"));
 		citadel.build(l);
 		createNewCastle();
 	}
