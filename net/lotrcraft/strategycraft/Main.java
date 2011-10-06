@@ -22,14 +22,13 @@ public class Main extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-		new ConfSaver(this);
+		//new ConfSaver(this);
 		log.info("StrategyCraft disabled!");
 
 	}
 
 	@Override
 	public void onEnable() {
-		
 		config = this.getConfiguration();
 		Config.load();
 		
@@ -39,6 +38,7 @@ public class Main extends JavaPlugin {
 		pm.registerEvent(Type.SIGN_CHANGE, new SignPlaced(), Priority.Normal, this);
 		
 		Bukkit.getScheduler().scheduleAsyncRepeatingTask(this, new ConfSaver(this), Config.saveFrequency, Config.saveFrequency);
+		
 		
 
 		

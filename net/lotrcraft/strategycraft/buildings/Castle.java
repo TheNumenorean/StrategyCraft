@@ -7,6 +7,7 @@ import net.lotrcraft.strategycraft.Config;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
 public class Castle {
@@ -41,8 +42,22 @@ public class Castle {
 		
 	}
 	
-	public boolean addBuilding(Building building){
-		if (buildings.size() < Config.maxBuildings)buildings.add(building);
+	/**
+	 * Adds a building to this castle and builds it, but onl if the castle
+	 * has enough room left. Returns true if successful.
+	 * 
+	 * @param building Building to add.
+	 * @param blockFace 
+	 * @param blockLoc 
+	 * @return True if succesful
+	 */
+	public boolean addBuilding(Building building, Location blockLoc, BlockFace blockFace){
+		if (buildings.size() < Config.maxBuildings){
+			buildings.add(building);
+			building.build(blockLoc);
+			return true;
+		}
+		return false;
 	}
 	
 	public Location getLocation(){

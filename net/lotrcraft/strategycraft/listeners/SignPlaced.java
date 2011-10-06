@@ -51,7 +51,7 @@ public class SignPlaced extends BlockListener {
 				event.setLine(0, ChatColor.RED + lines[0]);
 				player.sendMessage(ChatColor.DARK_RED + "Building doesn't exist!");
 			} else{
-				if (BuildingManager.getCastle(player.getName()).addBuilding(building)){
+				if (BuildingManager.getCastle(player.getName()).addBuilding(building, blockLoc, sign.getAttachedFace())){
 					player.sendMessage(ChatColor.DARK_RED + "Building created!");
 				}
 			}

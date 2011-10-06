@@ -1,18 +1,38 @@
 package net.lotrcraft.strategycraft.buildings;
 
 import org.bukkit.Location;
+import org.bukkit.block.BlockFace;
 
 public abstract class Building {
 	
 	private static BuildingManager bm;
 	
-	Location location;
+	static Location location;
 	
 	void build(Location l){
 		Schematic s = getSchematic();
 		byte[] bytes = s.getBlocks();
 		
-		location = new Location(l.getWorld(), s.getWidth()/2, l.getBlockY(), s.getLength()/2);
+		
+		/*
+		if (blockFace == BlockFace.NORTH){
+			
+			location = new Location(l.getWorld(), l.getBlockX() - s.getWidth()/2, l.getBlockY(), l.getBlockZ() - s.getLength()/2);
+			
+		} else if (blockFace == BlockFace.EAST){
+			
+			location = new Location(l.getWorld(), l.getBlockX() + s.getWidth()/2, l.getBlockY(), l.getBlockZ() - s.getLength()/2);
+			
+		} else if (blockFace == BlockFace.WEST){
+			
+			location = new Location(l.getWorld(), l.getBlockX() - s.getWidth()/2, l.getBlockY(), l.getBlockZ() + s.getLength()/2);
+			
+		} else {
+			
+			location = new Location(l.getWorld(), l.getBlockX() + s.getWidth()/2, l.getBlockY(), l.getBlockZ() + s.getLength()/2);
+			
+		}
+		*/
 		
 		for (int y = 0; y < s.getHeight(); y++){
 			for (int x = 0; x < s.getWidth(); x++){

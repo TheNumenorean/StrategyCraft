@@ -2,6 +2,7 @@ package net.lotrcraft.strategycraft;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.jar.JarFile;
 
 import net.lotrcraft.strategycraft.buildings.Building;
 import net.lotrcraft.strategycraft.buildings.BuildingManager;
@@ -10,7 +11,6 @@ import net.lotrcraft.strategycraft.buildings.Castle;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.entity.Creeper;
 import org.bukkit.util.config.Configuration;
 
 public class Config {
@@ -23,12 +23,39 @@ public class Config {
 	static Building tmpB;
 	static Castle castle;
 	public static File playerDataFolder = new File("plugins" + File.separator + "StrategyCraft" + File.separator + "PlayerCastles");
-	public static File playerDataFile;
-	public static File schematicsFolder = new File("plugins" + File.separator + "StrategyCraft" + File.separator + "Buildings");
+	public static File buildingFolder = new File("plugins" + File.separator + "StrategyCraft" + File.separator + "Buildings");
 	public static long saveFrequency;
 	public static int maxBuildings;
 
 	public static void load() {
+		
+		Main.log.info("[StrategyCraft] Loading Buildings...");
+		if (!buildingFolder.exists()){
+			buildingFolder.mkdirs();
+		} else {
+		
+			File[] buildings = buildingFolder.listFiles();
+			if (buildings.length != 0){
+				
+				for (int y = 0; y < buildings.length; y++){
+					if (!buildings[y].getName().contains(".jar") || !buildings[y].isFile())
+						continue;
+				
+					try {
+						JarFile jar = new JarFile(buildings[y]);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				
+			} else {
+				Main.log.severe("[StrategyCraft] Can't find any buildings!");
+			}
+		}
+		
+		
+		
+		Main.log.info("[StrategyCraft] Finished loading buildings.");
 	
 		Configuration config = Main.config;
 		config.load();
@@ -40,7 +67,6 @@ public class Config {
 		
 		if (!playerDataFolder.exists()){
 			playerDataFolder.mkdirs();
-			playerDataFolder.mkdir();
 		} else {
 			File[] playerFiles = playerDataFolder.listFiles();
 			if (playerFiles == null) return;
@@ -52,13 +78,11 @@ public class Config {
 				
 				String playerName = playerFiles[counter].getName().substring(0, playerFiles[counter].getName().indexOf('.'));
 				
-				playerDataFile = new File("" + playerFiles[counter]);
-				
-				if (!playerDataFile.canRead()){
+				if (!playerFiles[counter].canRead()){
 					Main.log.warning("Can't read file!");
 				}
 				
-				playerConfig = new Configuration(playerDataFile);
+				playerConfig = new Configuration(playerFiles[counter]);
 				playerConfig.load();
 				
 				if (isNull("Castle.Citadel.X", playerConfig)){
@@ -76,6 +100,7 @@ public class Config {
 					continue;
 				}
 				int z = playerConfig.getInt("Castle.Citadel.Z", -1);
+				Main.log.info(Bukkit.getWorlds().get(1).getName());
 				World world = Bukkit.getWorld(playerConfig.getString("Castle.Citadel.world", null));
 				
 				if (world == null) {
