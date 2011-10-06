@@ -26,6 +26,7 @@ public class Config {
 	public static File playerDataFile;
 	public static File schematicsFolder = new File("plugins" + File.separator + "StrategyCraft" + File.separator + "Buildings");
 	public static long saveFrequency;
+	public static int maxBuildings;
 
 	public static void load() {
 	
@@ -33,6 +34,7 @@ public class Config {
 		config.load();
 		coreBlock =  getInt("coreBlock", 49, config);
 		saveFrequency = getInt("saveFrequency", 3600, config );
+		maxBuildings = getInt("maxBuildings", 10, config );
 		
 		Main.log.info("[StrategyCraft] Loading Castles...");
 		

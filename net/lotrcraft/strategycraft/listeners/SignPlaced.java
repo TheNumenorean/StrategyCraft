@@ -34,6 +34,8 @@ public class SignPlaced extends BlockListener {
 			return;
 		}
 		
+		building = (Building) (BuildingManager.getBuilding(lines[1]).cast(Building.class));
+		
 		if (sign.isWallSign() && baseBlock.getTypeId() == Config.coreBlock) {
 			if (lines[1].equalsIgnoreCase("Castle")){
 				if (BuildingManager.getCastle(player.getName()) != null) {
@@ -45,11 +47,13 @@ public class SignPlaced extends BlockListener {
 					player.sendMessage(ChatColor.GOLD + "Castle created!");
 				}
 			}
-			else if ((building = BuildingManager.getBuilding(lines[1])) == null){
+			else if (building == null){
 				event.setLine(0, ChatColor.RED + lines[0]);
-				player.sendMessage("Building doesn't exist!");
+				player.sendMessage(ChatColor.DARK_RED + "Building doesn't exist!");
 			} else{
-				
+				if (BuildingManager.getCastle(player.getName()).addBuilding(building)){
+					player.sendMessage(ChatColor.DARK_RED + "Building created!");
+				}
 			}
 
 		}

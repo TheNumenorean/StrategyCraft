@@ -3,6 +3,8 @@ package net.lotrcraft.strategycraft.buildings;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.lotrcraft.strategycraft.Config;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -19,7 +21,8 @@ public class Castle {
 		this.l = l;
 		this.player = Bukkit.getPlayerExact(playerName);
 		this.playerName = playerName;
-		citadel = new (BuildingManager.getBuilding("Citadel"));
+		//TODO: Does this work?
+		citadel = (Building) (BuildingManager.getBuilding("Citadel").cast(Building.class));
 		citadel.build(l);
 		createNewCastle();
 	}
@@ -38,8 +41,8 @@ public class Castle {
 		
 	}
 	
-	public void addBuilding(Building building){
-		buildings.add(building);
+	public boolean addBuilding(Building building){
+		if (buildings.size() < Config.maxBuildings)buildings.add(building);
 	}
 	
 	public Location getLocation(){
