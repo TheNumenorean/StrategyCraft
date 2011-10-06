@@ -100,6 +100,7 @@ public class Config {
 					continue;
 				}
 				int z = playerConfig.getInt("Castle.Citadel.Z", -1);
+				
 				Main.log.info(Bukkit.getWorlds().get(1).getName());
 				World world = Bukkit.getWorld(playerConfig.getString("Castle.Citadel.world", null));
 				
