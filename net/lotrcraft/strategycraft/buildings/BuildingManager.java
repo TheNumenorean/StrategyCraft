@@ -12,7 +12,7 @@ import org.bukkit.Location;
 
 public class BuildingManager {
 	private static List<Castle> castles = new ArrayList<Castle>();
-	private static Map<String, Class> bldgs = new TreeMap<String, Class>();
+	private static Map<String, Class<? extends Building>> bldgs = new TreeMap<String, Class<? extends Building>>();
 	
 	public static boolean addCastle(String playerName, Castle castle){
 		if (!castles.contains(playerName)){
@@ -94,8 +94,15 @@ public class BuildingManager {
 	 * @param name Name of building
 	 * @return The Class of the building; null if it doesnt exist.
 	 */
-	public static Class<?> getBuilding(String name) {
+	public static Class<? extends Building> getBuilding(String name) {
+		
 		return bldgs.get(name);
+	}
+	
+	public static Object getBuildingObj(String name){
+		
+		
+		return (bldgs.get(name));
 	}
 	
 	/**

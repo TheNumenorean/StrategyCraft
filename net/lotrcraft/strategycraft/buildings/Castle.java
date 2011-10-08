@@ -23,12 +23,16 @@ public class Castle {
 		this.player = Bukkit.getPlayerExact(playerName);
 		this.playerName = playerName;
 		//TODO: Does this work?
-		citadel = (Building) (BuildingManager.getBuilding("Citadel").cast(Building.class));
+		citadel = (BuildingManager.getBuilding("Citadel").cast(Building.class));
 		citadel.build(l);
 		createNewCastle();
 	}
 	
 	public Building getBuildingAtLoc(Location l){
+		for (int y = 0; y < buildings.size(); y++){
+			if (buildings.get(y).location == l)
+				return buildings.get(y);
+		}
 		return null;
 	}
 	
