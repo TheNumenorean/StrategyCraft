@@ -2,6 +2,7 @@ package net.lotrcraft.strategycraft.listeners;
 
 import java.util.List;
 
+import net.lotrcraft.strategycraft.buildings.Building;
 import net.lotrcraft.strategycraft.buildings.BuildingManager;
 import net.lotrcraft.strategycraft.buildings.Castle;
 
@@ -18,6 +19,7 @@ public class BlockBreakListener extends BlockListener {
 	public void onBlockBreak(BlockBreakEvent e){
 		
 		Player player = e.getPlayer();
+		Building building;
 		
 		player.sendMessage("Called");
 		if ((castle = BuildingManager.getCastleAtLoc(e.getBlock().getLocation())) != null){
@@ -26,8 +28,8 @@ public class BlockBreakListener extends BlockListener {
 				BuildingManager.destroyCastle(castle);
 				
 			}
-		}else if (BuildingManager.getBuildingAtLoc(e.getBlock().getLocation()) != null){
-			
+		}else if ((building = BuildingManager.getBuildingAtLoc(e.getBlock().getLocation())) != null){
+			building.getCastle().destroyBuilding(building);
 		}
 
 	}

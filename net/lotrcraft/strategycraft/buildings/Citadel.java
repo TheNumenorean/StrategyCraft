@@ -9,6 +9,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 
 public class Citadel extends Building {
+
 	Schematic schematic = new Schematic(null);
 	Material material = Material.STONE;
 	Chunk chunk;
@@ -16,10 +17,10 @@ public class Citadel extends Building {
 	Location l;
 	Block block;
 	int x, y, z;
-	String name;
+	String name = "Citadel";
 	public static Logger log = Logger.getLogger("minecraft");
 	
-	String getName(){
+	public String getName(){
 		return name;
 	}
 	

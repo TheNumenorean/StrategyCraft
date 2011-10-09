@@ -2,6 +2,9 @@ package net.lotrcraft.strategycraft;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.jar.JarFile;
 
 import net.lotrcraft.strategycraft.buildings.Building;
@@ -12,6 +15,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.util.config.Configuration;
+
+import sun.misc.ClassLoaderUtil;
 
 public class Config {
 	
@@ -40,18 +45,62 @@ public class Config {
 				for (int y = 0; y < buildings.length; y++){
 					if (!buildings[y].getName().contains(".jar") || !buildings[y].isFile())
 						continue;
-				
+					
+					File tmp = new File("jar:file://" + buildings[y].getPath() + "!/");
+					File bldgCnfTmp = new File(tmp.getPath() + "configuration.yml");
+					
+					
+					if (!bldgCnfTmp.exists()){
+						Main.log.warning("[StrategyCraft] Missing configuration file for Building " + buildings[y].getName() + ", go nag the author for an update.");
+						continue;
+					}
+					
+					Configuration bldgConfig = new Configuration(bldgCnfTmp);
+					bldgConfig.load();
+					String buildingClassPath, unitClassPath, author = bldgConfig.getString("unit", "someone");
+					
+					if ((unitClassPath = bldgConfig.getString("unit", null)) == null){
+						Main.log.warning("[StrategyCraft] Building " + buildings[y].getName() + " is missing the unit class in its conf, go nag the author for an update.");
+						continue;
+					}
+					if ((buildingClassPath = bldgConfig.getString("building", null)) == null){
+						Main.log.warning("[StrategyCraft] Building " + buildings[y].getName() + " is missing the building class in its conf, go nag the author for an update.");
+						continue;
+					}
+					
+					Class buildingClass, unitClass;
+					
+					
 					try {
-						JarFile jar = new JarFile(buildings[y]);
-					} catch (IOException e) {
+						//ClassLoaderUtil.addFile(tmp);
+						
+						URL url = tmp.toURI().toURL();
+						
+						URLClassLoader jcl = new URLClassLoader(new URL[]{url});
+						
+						unitClass =  jcl.loadClass(unitClassPath);
+						buildingClass =  jcl.loadClass(unitClassPath);
+						
+						BuildingManager.addBuildingType(buildingClass);
+						
+					
+					} catch (MalformedURLException e) {
+						e.printStackTrace();
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					
+					
 				}
 				
 			} else {
 				Main.log.severe("[StrategyCraft] Can't find any buildings!");
 			}
 		}
+		
+
+
 		
 		
 		

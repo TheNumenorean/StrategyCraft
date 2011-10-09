@@ -5,6 +5,9 @@ import org.bukkit.block.BlockFace;
 
 public abstract class Building {
 	
+	static Castle castle;
+	
+	
 	private static BuildingManager bm;
 	
 	static Location location;
@@ -56,6 +59,15 @@ public abstract class Building {
 	
 	BuildingManager getBuildingManager(){
 		return bm;
+	}
+
+	public Castle getCastle() {
+		return castle;
+		
+	}
+
+	public void setCastle(Castle cstl) {
+		this.castle = cstl;
 	}
 
 

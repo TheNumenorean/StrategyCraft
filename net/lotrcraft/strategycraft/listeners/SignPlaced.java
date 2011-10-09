@@ -24,7 +24,7 @@ public class SignPlaced extends BlockListener {
 		Block baseBlock = block.getRelative(sign.getAttachedFace());
 		Location blockLoc = baseBlock.getLocation();
 		Player player = event.getPlayer();
-		Building building;
+		Building building = null;
 
 		int x = baseBlock.getX();
 		int y = baseBlock.getY();
@@ -33,8 +33,6 @@ public class SignPlaced extends BlockListener {
 		if (!lines[0].equals("StrategyCraft")){
 			return;
 		}
-		
-		building = (Building) (BuildingManager.getBuilding(lines[1]).cast(Building.class));
 		
 		if (sign.isWallSign() && baseBlock.getTypeId() == Config.coreBlock) {
 			if (lines[1].equalsIgnoreCase("Castle")){
@@ -47,12 +45,26 @@ public class SignPlaced extends BlockListener {
 					player.sendMessage(ChatColor.GOLD + "Castle created!");
 				}
 			}
-			else if (building == null){
-				event.setLine(0, ChatColor.RED + lines[0]);
-				player.sendMessage(ChatColor.DARK_RED + "Building doesn't exist!");
-			} else{
-				if (BuildingManager.getCastle(player.getName()).addBuilding(building, blockLoc, sign.getAttachedFace())){
-					player.sendMessage(ChatColor.DARK_RED + "Building created!");
+			else {
+				
+				try {
+					building = (BuildingManager.getBuilding(lines[1])) == null ? null : (BuildingManager.getBuilding(lines[1])).newInstance();
+				} catch (InstantiationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				if (building == null){
+					event.setLine(0, ChatColor.RED + lines[0]);
+					player.sendMessage(ChatColor.DARK_RED + "Building doesn't exist!");
+				} else{
+					if (BuildingManager.getCastle(player.getName()).addBuilding(building, blockLoc, sign.getAttachedFace())){
+						event.setLine(0, ChatColor.DARK_GREEN + lines[0]);
+						player.sendMessage(ChatColor.DARK_RED + "Building created!");
+					}
 				}
 			}
 

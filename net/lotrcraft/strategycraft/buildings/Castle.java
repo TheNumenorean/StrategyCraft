@@ -25,9 +25,14 @@ public class Castle {
 		//TODO: Does this work?
 		citadel = (BuildingManager.getBuilding("Citadel").cast(Building.class));
 		citadel.build(l);
-		createNewCastle();
+		buildings.add(citadel);
 	}
 	
+	/**
+	 * Gets a building at a specific location.
+	 * @param l
+	 * @return The building if this castle has a building registered at the location. Null if not.
+	 */
 	public Building getBuildingAtLoc(Location l){
 		for (int y = 0; y < buildings.size(); y++){
 			if (buildings.get(y).location == l)
@@ -36,18 +41,16 @@ public class Castle {
 		return null;
 	}
 	
+	/**
+	 * Checks if there are any buildings left in the castle.
+	 * @return True if there are buildings left.
+	 */
 	public boolean isBuildingLeft(){
 		return !buildings.isEmpty();
 	}
-
-	private void createNewCastle() {
-		buildings.add(citadel);
-		
-		
-	}
 	
 	/**
-	 * Adds a building to this castle and builds it, but onl if the castle
+	 * Adds a building to this castle and builds it, but only if the castle
 	 * has enough room left. Returns true if successful.
 	 * 
 	 * @param building Building to add.
@@ -59,21 +62,44 @@ public class Castle {
 		if (buildings.size() < Config.maxBuildings){
 			buildings.add(building);
 			building.build(blockLoc);
+			building.setCastle(this);
 			return true;
 		}
 		return false;
 	}
 	
+	/**
+	 * Gets the lcation of the center block 
+	 * of this castle's citadel.
+	 * @return The location
+	 */
 	public Location getLocation(){
 		return l;
 	}
 
+	/**
+	 * Destroys this castle, irrespective of how many buildings it has left.
+	 * Also destroys all remaining buildings.
+	 */
 	public void destroy() {
+		for (int y = 0; y < buildings.size(); y++){
+			destroyBuilding(buildings.get(y));
+		}
 		citadel.destroy();
 	}
 	
 	public String getOwner(){
 		return playerName;
+	}
+
+	public void destroyBuilding(Building b) {
+		for (int y = 0; y < buildings.size(); y++){
+			if (buildings.get(y).equals(b)){
+				buildings.get(y).destroy();
+				buildings.remove(y);
+			}
+		}
+		
 	}
 	
 
