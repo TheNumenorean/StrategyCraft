@@ -7,12 +7,9 @@ public abstract class Building {
 	
 	static Castle castle;
 	
-	
-	private static BuildingManager bm;
-	
 	static Location location;
 	
-	void build(Location l){
+	public void build(Location l){
 		Schematic s = getSchematic();
 		byte[] bytes = s.getBlocks();
 		
@@ -47,7 +44,7 @@ public abstract class Building {
 		
 	}
 	
-	void destroy(){
+	public void destroy(){
 		
 	}
 	
@@ -58,6 +55,7 @@ public abstract class Building {
 	}
 	
 	BuildingManager getBuildingManager(){
+		BuildingManager bm = new BuildingManager();
 		return bm;
 	}
 

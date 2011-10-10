@@ -1,6 +1,9 @@
-package net.lotrcraft.strategycraft.buildings;
+package net.lotrcraft.scbuildings;
 
 import java.util.logging.Logger;
+
+import net.lotrcraft.strategycraft.buildings.Building;
+import net.lotrcraft.strategycraft.buildings.Schematic;
 
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -24,7 +27,8 @@ public class Citadel extends Building {
 		return name;
 	}
 	
-	void build(Location l){
+	@Override
+	public void build(Location l){
 		this.l = l;
 		block = l.getBlock();
 		x = block.getX();
@@ -50,7 +54,8 @@ public class Citadel extends Building {
 		world.getBlockAt(x - 2, y, z - 1).setType(this.material);
 	}
 	
-	void destroy(){
+	@Override
+	public void destroy(){
 		block = l.getBlock();
 		x = block.getX();
 		y = block.getY();
