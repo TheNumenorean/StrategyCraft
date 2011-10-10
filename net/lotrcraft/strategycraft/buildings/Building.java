@@ -51,7 +51,7 @@ public abstract class Building {
 		
 	}
 	
-	abstract String getName();
+	public abstract String getName();
 	
 	Schematic getSchematic(){
 		return new Schematic(getClass().getClassLoader().getResourceAsStream(getName() + ".schematic"));
