@@ -48,7 +48,9 @@ public abstract class Building {
 		
 	}
 	
-	public abstract String getName();
+	public String getName(){
+		return this.getClass().getName().substring(0, this.getClass().getName().indexOf('.'));
+	}
 	
 	Schematic getSchematic(){
 		return new Schematic(getClass().getClassLoader().getResourceAsStream(getName() + ".schematic"));
