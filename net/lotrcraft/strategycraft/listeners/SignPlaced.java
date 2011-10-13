@@ -46,16 +46,7 @@ public class SignPlaced extends BlockListener {
 				}
 			}
 			else {
-				
-				try {
-					building = (BuildingManager.getBuilding(lines[1])) == null ? null : (BuildingManager.getBuilding(lines[1])).newInstance();
-				} catch (InstantiationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				building = (BuildingManager.getBuildingClass(lines[1])) == null ? null : (BuildingManager.getNewBuilding(lines[1]));
 				
 				if (building == null){
 					event.setLine(0, ChatColor.RED + lines[0]);

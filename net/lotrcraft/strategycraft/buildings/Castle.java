@@ -22,8 +22,7 @@ public class Castle {
 		this.l = l;
 		this.player = Bukkit.getPlayerExact(playerName);
 		this.playerName = playerName;
-		//TODO: Does this work?
-		citadel = (BuildingManager.getBuilding("Citadel").cast(Building.class));
+		citadel = (BuildingManager.getNewBuilding("Citadel"));
 		citadel.build(l);
 		buildings.add(citadel);
 	}

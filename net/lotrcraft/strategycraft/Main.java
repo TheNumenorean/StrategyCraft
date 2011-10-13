@@ -42,7 +42,7 @@ public class Main extends JavaPlugin {
 		
 
 		
-		if (BuildingManager.getBuilding("Citadel") == null) {
+		if (BuildingManager.getBuildingClass("Citadel") == null) {
 			log.severe("[StrategyCraft] Can't find Citadel.jar! Disabling...");
 			this.pm.disablePlugin(this);
 			return;

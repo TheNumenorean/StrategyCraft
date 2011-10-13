@@ -21,8 +21,6 @@ import sun.misc.ClassLoaderUtil;
 public class Config {
 	
 	public static int coreBlock;
-	static //public static boolean 
-
 	
 	Configuration playerConfig;
 	static Building tmpB;
@@ -79,7 +77,7 @@ public class Config {
 						URLClassLoader jcl = new URLClassLoader(new URL[]{url});
 						
 						unitClass =  jcl.loadClass(unitClassPath);
-						buildingClass =  jcl.loadClass(unitClassPath);
+						buildingClass =  jcl.loadClass(buildingClassPath);
 						
 						BuildingManager.addBuildingType(buildingClass);
 						

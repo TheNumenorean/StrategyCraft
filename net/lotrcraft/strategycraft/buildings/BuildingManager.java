@@ -46,6 +46,11 @@ public class BuildingManager {
 		return null;
 	}
 	
+	/**
+	 * Gets the building at a specified location. 
+	 * @param location The location of the core block of the alleged building.
+	 * @return Null if no building is found at the location; The building if otherwise.
+	 */
 	public static Building getBuildingAtLoc(Location location){
 		Castle[] tmpC = (Castle[]) BuildingManager.getCastles().toArray();
 		if (tmpC.length == 0)
@@ -73,7 +78,7 @@ public class BuildingManager {
 
 	/**
 	 * Trys to find a castle owned by the named player.
-	 * If it cant find the castle, returns null.
+	 * If it can't find the castle, returns null.
 	 * 
 	 * @param playerName
 	 * @return The player's castle
@@ -94,15 +99,23 @@ public class BuildingManager {
 	 * @param name Name of building
 	 * @return The Class of the building; null if it doesnt exist.
 	 */
-	public static Class<? extends Building> getBuilding(String name) {
-		
+	public static Class<? extends Building> getBuildingClass(String name) {
 		return bldgs.get(name);
 	}
 	
-	public static Object getBuildingObj(String name){
-		
-		
-		return (bldgs.get(name));
+	
+	
+	public static Building getNewBuilding(String name){
+		try {
+			return (bldgs.get(name).newInstance());
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	/**
