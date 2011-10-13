@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.jar.JarFile;
-
 import net.lotrcraft.strategycraft.buildings.Building;
 import net.lotrcraft.strategycraft.buildings.BuildingManager;
 import net.lotrcraft.strategycraft.buildings.Castle;
@@ -16,13 +14,12 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.util.config.Configuration;
 
-import sun.misc.ClassLoaderUtil;
-
+@SuppressWarnings("deprecation")
 public class Config {
 	
 	public static int coreBlock;
 	
-	Configuration playerConfig;
+	static Configuration playerConfig;
 	static Building tmpB;
 	static Castle castle;
 	public static File playerDataFolder = new File("plugins" + File.separator + "StrategyCraft" + File.separator + "PlayerCastles");
@@ -44,12 +41,21 @@ public class Config {
 					if (!buildings[y].getName().contains(".jar") || !buildings[y].isFile())
 						continue;
 					
-					File tmp = new File("jar:file://" + buildings[y].getPath() + "!/");
-					File bldgCnfTmp = new File(tmp.getPath() + "configuration.yml");
+					File tmp = new File("jar:file://" + buildings[y].getPath() + "!" + File.separator);
+					File bldgCnfTmp = new File("jar:file://" + buildings[y].getPath() + File.separator + "configuration.yml");
 					
+					Main.log.info("[StrategyCraft] Found building " + buildings[y].getName() +". Atempting to read...");
 					
 					if (!bldgCnfTmp.exists()){
 						Main.log.warning("[StrategyCraft] Missing configuration file for Building " + buildings[y].getName() + ", go nag the author for an update.");
+						Main.log.info(tmp + "\n" + bldgCnfTmp);
+						bldgCnfTmp.mkdirs();
+						try {
+							bldgCnfTmp.createNewFile();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						continue;
 					}
 					
@@ -67,6 +73,8 @@ public class Config {
 					}
 					
 					Class buildingClass, unitClass;
+					
+					Main.log.info("[StrategyCraft] Config for building " + buildings[y].getName() +" read. Loading classes...");
 					
 					
 					try {
@@ -89,7 +97,7 @@ public class Config {
 						e.printStackTrace();
 					}
 					
-					
+					Main.log.info("[StrategyCraft] Building " + buildings[y].getName() +" successfully loaded!");
 				}
 				
 			} else {
