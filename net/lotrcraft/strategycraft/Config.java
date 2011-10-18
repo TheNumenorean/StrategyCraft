@@ -76,26 +76,7 @@ public class Config {
 					
 					Main.log.info("[StrategyCraft] Config for building " + buildings[y].getName() +" read. Loading classes...");
 					
-					
-					try {
-						//ClassLoaderUtil.addFile(tmp);
-						
-						URL url = tmp.toURI().toURL();
-						
-						URLClassLoader jcl = new URLClassLoader(new URL[]{url});
-						
-						unitClass =  jcl.loadClass(unitClassPath);
-						buildingClass =  jcl.loadClass(buildingClassPath);
-						
-						BuildingManager.addBuildingType(buildingClass);
-						
-					
-					} catch (MalformedURLException e) {
-						e.printStackTrace();
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					BuildingManager.addBuildingType(BuildingLoader.loadBuilding(buildings[y]));
 					
 					Main.log.info("[StrategyCraft] Building " + buildings[y].getName() +" successfully loaded!");
 				}
