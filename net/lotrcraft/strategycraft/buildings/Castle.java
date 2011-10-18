@@ -13,7 +13,6 @@ import org.bukkit.entity.Player;
 public class Castle {
 	private List<Building> buildings = new ArrayList<Building>();
 	private Location l;
-	private Building citadel;
 	private Player player;
 	private String playerName;
 	
@@ -22,9 +21,8 @@ public class Castle {
 		this.l = l;
 		this.player = Bukkit.getPlayerExact(playerName);
 		this.playerName = playerName;
-		citadel = (BuildingManager.getNewBuilding("Citadel"));
-		citadel.build(l);
-		buildings.add(citadel);
+		buildings.add(BuildingManager.getNewBuilding("Citadel"));
+		buildings.get(0).build(l);
 	}
 	
 	/**
@@ -84,21 +82,33 @@ public class Castle {
 		for (int y = 0; y < buildings.size(); y++){
 			destroyBuilding(buildings.get(y));
 		}
-		citadel.destroy();
 	}
 	
+	/**
+	 * Gets the player that owns this castle.
+	 * @return The name of the player.
+	 */
 	public String getOwner(){
 		return playerName;
 	}
 
-	public void destroyBuilding(Building b) {
+	
+	/**
+	 * Destroys and deletes the building within this castle specified by the 
+	 * supplied parameter.
+	 * 
+	 * @param b The building to destroy
+	 * @return True if successful; False if the building doesn't exist.
+	 */
+	public boolean destroyBuilding(Building b) {
 		for (int y = 0; y < buildings.size(); y++){
 			if (buildings.get(y).equals(b)){
 				buildings.get(y).destroy();
 				buildings.remove(y);
+				return true;
 			}
 		}
-		
+		return false;
 	}
 	
 

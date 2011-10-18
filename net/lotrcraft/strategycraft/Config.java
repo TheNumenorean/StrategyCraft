@@ -42,7 +42,7 @@ public class Config {
 						continue;
 					
 					File tmp = new File("jar:file://" + buildings[y].getPath() + "!" + File.separator);
-					File bldgCnfTmp = new File("jar:file://" + buildings[y].getPath() + File.separator + "configuration.yml");
+					File bldgCnfTmp = new File(tmp.getPath() + File.separator + "building.yml");
 					
 					Main.log.info("[StrategyCraft] Found building " + buildings[y].getName() +". Atempting to read...");
 					
