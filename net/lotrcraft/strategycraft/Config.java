@@ -8,6 +8,7 @@ import java.net.URLClassLoader;
 import net.lotrcraft.strategycraft.buildings.Building;
 import net.lotrcraft.strategycraft.buildings.BuildingManager;
 import net.lotrcraft.strategycraft.buildings.Castle;
+import net.lotrcraft.strategycraft.buildings.InvalidBuildingConfException;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -41,42 +42,19 @@ public class Config {
 					if (!buildings[y].getName().contains(".jar") || !buildings[y].isFile())
 						continue;
 					
-					File tmp = new File("jar:file://" + buildings[y].getPath() + "!" + File.separator);
-					File bldgCnfTmp = new File(tmp.getPath() + File.separator + "building.yml");
 					
-					Main.log.info("[StrategyCraft] Found building " + buildings[y].getName() +". Atempting to read...");
-					
-					if (!bldgCnfTmp.exists()){
-						Main.log.warning("[StrategyCraft] Missing configuration file for Building " + buildings[y].getName() + ", go nag the author for an update.");
-						Main.log.info(tmp + "\n" + bldgCnfTmp);
-						bldgCnfTmp.mkdirs();
-						try {
-							bldgCnfTmp.createNewFile();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+					try {
+						if (!BuildingManager.addBuildingType(BuildingLoader.loadBuilding(buildings[y]))){
+							Main.log.warning("[StrategyCraft] Building " + buildings[y].getName() +" unable to load, check to make sure you dont have duplicates in your buildings folder.");
+							continue;
 						}
-						continue;
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InvalidBuildingConfException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
-					
-					Configuration bldgConfig = new Configuration(bldgCnfTmp);
-					bldgConfig.load();
-					String buildingClassPath, unitClassPath, author = bldgConfig.getString("unit", "someone");
-					
-					if ((unitClassPath = bldgConfig.getString("unit", null)) == null){
-						Main.log.warning("[StrategyCraft] Building " + buildings[y].getName() + " is missing the unit class in its conf, go nag the author for an update.");
-						continue;
-					}
-					if ((buildingClassPath = bldgConfig.getString("building", null)) == null){
-						Main.log.warning("[StrategyCraft] Building " + buildings[y].getName() + " is missing the building class in its conf, go nag the author for an update.");
-						continue;
-					}
-					
-					Class buildingClass, unitClass;
-					
-					Main.log.info("[StrategyCraft] Config for building " + buildings[y].getName() +" read. Loading classes...");
-					
-					BuildingManager.addBuildingType(BuildingLoader.loadBuilding(buildings[y]));
 					
 					Main.log.info("[StrategyCraft] Building " + buildings[y].getName() +" successfully loaded!");
 				}

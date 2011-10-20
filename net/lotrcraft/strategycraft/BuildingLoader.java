@@ -1,6 +1,7 @@
 package net.lotrcraft.strategycraft;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Map;
@@ -18,11 +19,10 @@ public class BuildingLoader {
 	private static Yaml yaml;
 
 	@SuppressWarnings("unchecked")
-	public static BuildingDescription loadBuilding(File file) {
+	public static BuildingDescription loadBuilding(File file) throws IOException, InvalidBuildingConfException {
 		
 		String building = null, unit = null, name = null;
 		BuildingDescription d;
-		try {
 			JarFile jf = new JarFile(file);
 			JarEntry je = jf.getJarEntry("building.yml");
 			Map<String, Object> map = (Map<String, Object>) yaml.load(jf.getInputStream(je));
@@ -38,11 +38,9 @@ public class BuildingLoader {
 				
 			} catch (NullPointerException e){
 				throw new InvalidBuildingConfException();
+			} catch (ClassNotFoundException e) {
+				throw new InvalidBuildingConfException();
 			}
 			return d;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 }
