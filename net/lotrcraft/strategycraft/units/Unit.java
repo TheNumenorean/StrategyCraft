@@ -12,13 +12,14 @@ public abstract class Unit {
 		this.castle = castle;
 	}
 	
-	Castle getCastle(){
+	public Castle getCastle(){
 		return castle;
 	}
-	abstract void onCreate(Location l);
-	abstract void onDestroy();
-	abstract void onMove(Location l);
-	abstract void onAttack(Object victim);
-	abstract void onAttacked(Object attacker);
+	
+	public abstract void onCreate(Location l);
+	public abstract void onDestroy();
+	public abstract void onMove(Location l);
+	public abstract void onAttack(Object victim);
+	public abstract void onAttacked(Object attacker);
 
 }

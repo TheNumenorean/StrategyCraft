@@ -42,6 +42,7 @@ public class Config {
 					if (!buildings[y].getName().contains(".jar") || !buildings[y].isFile())
 						continue;
 					
+					Main.log.info("[StrategyCraft] Found building " + buildings[y].getName() +", attempting to load...");
 					
 					try {
 						if (!BuildingManager.addBuildingType(BuildingLoader.loadBuilding(buildings[y]))){
@@ -51,9 +52,11 @@ public class Config {
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+						continue;
 					} catch (InvalidBuildingConfException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+						continue;
 					}
 					
 					Main.log.info("[StrategyCraft] Building " + buildings[y].getName() +" successfully loaded!");
