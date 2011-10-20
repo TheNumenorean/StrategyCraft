@@ -12,7 +12,7 @@ import org.bukkit.Location;
 
 public class BuildingManager {
 	private static List<Castle> castles = new ArrayList<Castle>();
-	private static Map<String, Class<? extends Building>> bldgs = new TreeMap<String, Class<? extends Building>>();
+	private static List<BuildingDescription> bldgs = new ArrayList<BuildingDescription>();
 	
 	public static boolean addCastle(String playerName, Castle castle){
 		if (!castles.contains(playerName)){
@@ -22,19 +22,33 @@ public class BuildingManager {
 		return false;
 	}
 	
-	public static boolean addBuildingType(Class building){
-		if (building.getName() == null || bldgs.containsKey(building.getName())){
+	/**
+	 * Adds a building type to the list.
+	 * @param buildingDescription The BuildingDescription to add.
+	 * @return True if successful
+	 */
+	public static boolean addBuildingType(BuildingDescription buildingDescription){
+		if (bldgs.contains(buildingDescription.getName())){
 			return false;
 		}
 
-		bldgs.put(building.getName(), building);
+		bldgs.add(buildingDescription);
 		return true;
 	}
 	
+	/**
+	 * Returns a list of known castles.
+	 * @return List of Castles
+	 */
 	public static List<Castle> getCastles(){
 		return castles;
 	}
 	
+	/**
+	 * Gets the castle with aa Citadel at the stated location.
+	 * @param l Location of Citadel core block.
+	 * @return the Castle if one can be found at that location.
+	 */
 	public static Castle getCastleAtLoc(Location l){
 		List<Castle> tmpC = getCastles();
 		
@@ -100,14 +114,30 @@ public class BuildingManager {
 	 * @return The Class of the building; null if it doesnt exist.
 	 */
 	public static Class<? extends Building> getBuildingClass(String name) {
-		return bldgs.get(name);
+		for (int y = 0; y < bldgs.size(); y++){
+			if (bldgs.get(y).getName().equalsIgnoreCase(name)){
+				return (bldgs.get(y).getBuilding());
+			}
+		}
+		return null;
 	}
 	
-	
+	public static BuildingDescription getBuilding(String name){
+		for (int y = 0; y < bldgs.size(); y++){
+			if (bldgs.get(y).getName().equalsIgnoreCase(name)){
+				return bldgs.get(y);
+			}
+		}
+		return null;
+	}
 	
 	public static Building getNewBuilding(String name){
 		try {
-			return (bldgs.get(name).newInstance());
+			for (int y = 0; y < bldgs.size(); y++){
+				if (bldgs.get(y).getName().equalsIgnoreCase(name)){
+					return (bldgs.get(y).getBuilding().newInstance());
+				}
+			}
 		} catch (InstantiationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
