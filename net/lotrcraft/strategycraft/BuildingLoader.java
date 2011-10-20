@@ -19,28 +19,34 @@ public class BuildingLoader {
 	private static Yaml yaml;
 
 	@SuppressWarnings("unchecked")
-	public static BuildingDescription loadBuilding(File file) throws IOException, InvalidBuildingConfException {
-		
+	public static BuildingDescription loadBuilding(File file)
+			throws IOException, InvalidBuildingConfException {
+
 		String building = null, unit = null, name = null;
 		BuildingDescription d;
+		try {
 			JarFile jf = new JarFile(file);
 			JarEntry je = jf.getJarEntry("building.yml");
-			Map<String, Object> map = (Map<String, Object>) yaml.load(jf.getInputStream(je));
-			
-			try {
-				building = (String) map.get("building");
-				unit = (String) map.get("unit");
-				name = (String) map.get("name");
-				
-				jf.close();
-				
-				d = new BuildingDescription(name, new URLClassLoader(new URL[] { file.toURI().toURL() }).loadClass(building).asSubclass(Building.class), new URLClassLoader(new URL[] { file.toURI().toURL() }).loadClass(unit).asSubclass(Unit.class));
-				
-			} catch (NullPointerException e){
-				throw new InvalidBuildingConfException();
-			} catch (ClassNotFoundException e) {
-				throw new InvalidBuildingConfException();
-			}
-			return d;
+			Map<String, Object> map = (Map<String, Object>) yaml.load(jf
+					.getInputStream(je));
+
+			building = (String) map.get("building");
+			unit = (String) map.get("unit");
+			name = (String) map.get("name");
+
+			jf.close();
+
+			d = new BuildingDescription(name, new URLClassLoader(
+					new URL[] { file.toURI().toURL() }).loadClass(building)
+					.asSubclass(Building.class), new URLClassLoader(
+					new URL[] { file.toURI().toURL() }).loadClass(unit)
+					.asSubclass(Unit.class));
+
+		} catch (NullPointerException e) {
+			throw new InvalidBuildingConfException();
+		} catch (ClassNotFoundException e) {
+			throw new InvalidBuildingConfException();
+		}
+		return d;
 	}
 }
