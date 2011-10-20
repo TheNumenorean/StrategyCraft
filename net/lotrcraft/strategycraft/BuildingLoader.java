@@ -5,43 +5,44 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.util.config.Configuration;
 import org.yaml.snakeyaml.Yaml;
 
 import net.lotrcraft.strategycraft.buildings.Building;
+import net.lotrcraft.strategycraft.buildings.BuildingDescription;
+import net.lotrcraft.strategycraft.buildings.InvalidBuildingConfException;
 import net.lotrcraft.strategycraft.units.Unit;
 
 public class BuildingLoader {
-	public static Class<? extends Building> loadBuilding(File file) {
+	private static Yaml yaml;
+
+	@SuppressWarnings("unchecked")
+	public static BuildingDescription loadBuilding(File file) {
+		
+		String building = null, unit = null, name = null;
+		BuildingDescription d;
 		try {
 			JarFile jf = new JarFile(file);
 			JarEntry je = jf.getJarEntry("building.yml");
-			BufferedReader br = new BufferedReader(new InputStreamReader(jf.getInputStream(je)));
-			String mainclass = br.readLine();
-			br.close();
-			jf.close();
-			return new URLClassLoader(new URL[] { file.toURI().toURL() }).loadClass(mainclass).asSubclass(Building.class);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	@SuppressWarnings("deprecation")
-	public static Class<? extends Unit> loadUnit(File file) {
-		try {
-			JarFile jf = new JarFile(file);
-			JarEntry je = jf.getJarEntry("building.yml");
-			BufferedReader br = new BufferedReader(new InputStreamReader(jf.getInputStream(je)));
-			String mainclass = br.readLine();
-			FileConfiguration c = new FileConfiguration();
-			Yaml y = new Yaml();
-			br.close();
-			jf.close();
-			return new URLClassLoader(new URL[] { file.toURI().toURL() }).loadClass(mainclass).asSubclass(Building.class);
+			Map<String, Object> map = (Map<String, Object>) yaml.load(jf.getInputStream(je));
+			
+			try {
+				building = (String) map.get("building");
+				unit = (String) map.get("unit");
+				name = (String) map.get("name");
+				
+				jf.close();
+				
+				d = new BuildingDescription(name, new URLClassLoader(new URL[] { file.toURI().toURL() }).loadClass(building).asSubclass(Building.class), new URLClassLoader(new URL[] { file.toURI().toURL() }).loadClass(unit).asSubclass(Unit.class));
+				
+			} catch (NullPointerException e){
+				throw new InvalidBuildingConfException();
+			}
+			return d;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
