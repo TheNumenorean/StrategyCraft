@@ -10,23 +10,24 @@ import java.util.jar.JarFile;
 
 import org.yaml.snakeyaml.Yaml;
 
+import net.lotrcraft.strategycraft.Main;
 import net.lotrcraft.strategycraft.buildings.Building;
 import net.lotrcraft.strategycraft.units.Unit;
 
 public class BuildingLoader {
-	private static Yaml yaml;
+	private static Yaml yaml = new Yaml();
 
 	@SuppressWarnings("unchecked")
 	public static BuildingDescription loadBuilding(File file)
 			throws IOException, InvalidBuildingConfException {
 
 		String building = null, unit = null, name = null;
-		BuildingDescription d;
+		BuildingDescription d = null;
 		try {
 			JarFile jf = new JarFile(file);
 			JarEntry je = jf.getJarEntry("building.yml");
-			Map<String, Object> map = (Map<String, Object>) yaml.load(jf
-					.getInputStream(je));
+
+			Map<String, Object> map = (Map<String, Object>) yaml.load(jf.getInputStream(je));
 
 			building = (String) map.get("building");
 			unit = (String) map.get("unit");
@@ -34,14 +35,22 @@ public class BuildingLoader {
 
 			jf.close();
 
-			d = new BuildingDescription(name, new URLClassLoader(
-					new URL[] { file.toURI().toURL() }).loadClass(building)
-					.asSubclass(Building.class), new URLClassLoader(
-					new URL[] { file.toURI().toURL() }).loadClass(unit)
-					.asSubclass(Unit.class));
+			d = new BuildingDescription(name,
+					new URLClassLoader(
+							new URL[] { file.toURI().toURL() })
+								.loadClass(building) //problemo
+									.asSubclass(Building.class),
+					new URLClassLoader(
+							new URL[] { file.toURI().toURL() }).loadClass(unit)
+							.asSubclass(Unit.class));
 
 		} catch (NullPointerException e) {
-			throw new InvalidBuildingConfException();
+			//Causing problems
+			//TODO: Fix
+			//throw new InvalidBuildingConfException();
+			
+			e.printStackTrace();
+			
 		} catch (ClassNotFoundException e) {
 			throw new InvalidBuildingConfException();
 		}
