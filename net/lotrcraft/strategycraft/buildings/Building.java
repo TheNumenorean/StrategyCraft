@@ -1,5 +1,7 @@
 package net.lotrcraft.strategycraft.buildings;
 
+import net.lotrcraft.strategycraft.schematic.Schematic;
+
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 

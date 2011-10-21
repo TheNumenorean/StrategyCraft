@@ -1,4 +1,4 @@
-package net.lotrcraft.strategycraft;
+package net.lotrcraft.strategycraft.loader;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,8 +11,6 @@ import java.util.jar.JarFile;
 import org.yaml.snakeyaml.Yaml;
 
 import net.lotrcraft.strategycraft.buildings.Building;
-import net.lotrcraft.strategycraft.buildings.BuildingDescription;
-import net.lotrcraft.strategycraft.buildings.InvalidBuildingConfException;
 import net.lotrcraft.strategycraft.units.Unit;
 
 public class BuildingLoader {

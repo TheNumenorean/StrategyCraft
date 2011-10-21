@@ -1,4 +1,4 @@
-package net.lotrcraft.strategycraft.buildings;
+package net.lotrcraft.strategycraft.loader;
 
 public class InvalidBuildingConfException extends Exception {
 	/**

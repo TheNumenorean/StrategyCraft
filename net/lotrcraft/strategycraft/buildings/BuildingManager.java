@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import net.lotrcraft.strategycraft.Config;
+import net.lotrcraft.strategycraft.loader.BuildingDescription;
 
 import org.bukkit.Location;
 

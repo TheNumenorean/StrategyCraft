@@ -1,4 +1,4 @@
-package net.lotrcraft.strategycraft.buildings;
+package net.lotrcraft.strategycraft.schematic;
 
 import java.io.InputStream;
 import java.util.ArrayList;

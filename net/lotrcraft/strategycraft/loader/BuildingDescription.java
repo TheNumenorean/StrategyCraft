@@ -1,5 +1,6 @@
-package net.lotrcraft.strategycraft.buildings;
+package net.lotrcraft.strategycraft.loader;
 
+import net.lotrcraft.strategycraft.buildings.Building;
 import net.lotrcraft.strategycraft.units.Unit;
 
 public class BuildingDescription {

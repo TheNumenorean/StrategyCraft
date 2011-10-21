@@ -8,7 +8,8 @@ import java.net.URLClassLoader;
 import net.lotrcraft.strategycraft.buildings.Building;
 import net.lotrcraft.strategycraft.buildings.BuildingManager;
 import net.lotrcraft.strategycraft.buildings.Castle;
-import net.lotrcraft.strategycraft.buildings.InvalidBuildingConfException;
+import net.lotrcraft.strategycraft.loader.BuildingLoader;
+import net.lotrcraft.strategycraft.loader.InvalidBuildingConfException;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
