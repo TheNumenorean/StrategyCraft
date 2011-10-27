@@ -14,7 +14,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.config.Configuration;
 
-public class Main extends JavaPlugin {
+public class StrategyCraft extends JavaPlugin {
 	
 	public static Configuration config;
 	public static PluginManager pm;
@@ -50,5 +50,7 @@ public class Main extends JavaPlugin {
 		
 		log.info("StrategyCraft enabled!");
 	}
+	
+	
 
 }

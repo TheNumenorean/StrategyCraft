@@ -25,7 +25,7 @@ public class ConfSaver implements Runnable {
 		if (BuildingManager.getCastles().isEmpty())
 			return;
 		
-		Main.log.info("[StrategyCraft] Saving castles...");
+		StrategyCraft.log.info("[StrategyCraft] Saving castles...");
 		
 		File file;
 		List<Castle> c = BuildingManager.getCastles();
@@ -35,7 +35,7 @@ public class ConfSaver implements Runnable {
 			try {
 				file.createNewFile();
 			} catch (IOException e) {
-				Main.log.severe("Can't save Player files!");
+				StrategyCraft.log.severe("Can't save Player files!");
 			}
 			
 			Configuration config = new Configuration(file);
@@ -47,10 +47,10 @@ public class ConfSaver implements Runnable {
 			
 			config.save();
 			
-			Main.log.info("[StrategyCraft] Castle for " + c.get(y).getOwner() + " saved!");
+			StrategyCraft.log.info("[StrategyCraft] Castle for " + c.get(y).getOwner() + " saved!");
 		}
 		
-		Main.log.info("[StrategyCraft] Finished saving!");
+		StrategyCraft.log.info("[StrategyCraft] Finished saving!");
 		
 		return;
 		

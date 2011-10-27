@@ -31,7 +31,7 @@ public class Config {
 
 	public static void load() {
 		
-		Main.log.info("[StrategyCraft] Loading Buildings...");
+		StrategyCraft.log.info("[StrategyCraft] Loading Buildings...");
 		if (!buildingFolder.exists()){
 			buildingFolder.mkdirs();
 		} else {
@@ -43,11 +43,11 @@ public class Config {
 					if (!buildings[y].getName().contains(".jar") || !buildings[y].isFile())
 						continue;
 					
-					Main.log.info("[StrategyCraft] Found building " + buildings[y].getName() +", attempting to load...");
+					StrategyCraft.log.info("[StrategyCraft] Found building " + buildings[y].getName() +", attempting to load...");
 					
 					try {
 						if (!BuildingManager.addBuildingType(BuildingLoader.loadBuilding(buildings[y]))){
-							Main.log.warning("[StrategyCraft] Building " + buildings[y].getName() +" unable to load, check to make sure you dont have duplicates in your buildings folder.");
+							StrategyCraft.log.warning("[StrategyCraft] Building " + buildings[y].getName() +" unable to load, check to make sure you dont have duplicates in your buildings folder.");
 							continue;
 						}
 					} catch (IOException e) {
@@ -60,11 +60,11 @@ public class Config {
 						continue;
 					}
 					
-					Main.log.info("[StrategyCraft] Building " + buildings[y].getName() +" successfully loaded!");
+					StrategyCraft.log.info("[StrategyCraft] Building " + buildings[y].getName() +" successfully loaded!");
 				}
 				
 			} else {
-				Main.log.severe("[StrategyCraft] Can't find any buildings!");
+				StrategyCraft.log.severe("[StrategyCraft] Can't find any buildings!");
 			}
 		}
 		
@@ -73,15 +73,15 @@ public class Config {
 		
 		
 		
-		Main.log.info("[StrategyCraft] Finished loading buildings.");
+		StrategyCraft.log.info("[StrategyCraft] Finished loading buildings.");
 	
-		Configuration config = Main.config;
+		Configuration config = StrategyCraft.config;
 		config.load();
 		coreBlock =  getInt("coreBlock", 49, config);
 		saveFrequency = getInt("saveFrequency", 3600, config );
 		maxBuildings = getInt("maxBuildings", 10, config );
 		
-		Main.log.info("[StrategyCraft] Loading Castles...");
+		StrategyCraft.log.info("[StrategyCraft] Loading Castles...");
 		
 		if (!playerDataFolder.exists()){
 			playerDataFolder.mkdirs();
@@ -97,33 +97,33 @@ public class Config {
 				String playerName = playerFiles[counter].getName().substring(0, playerFiles[counter].getName().indexOf('.'));
 				
 				if (!playerFiles[counter].canRead()){
-					Main.log.warning("Can't read file!");
+					StrategyCraft.log.warning("Can't read file!");
 				}
 				
 				playerConfig = new Configuration(playerFiles[counter]);
 				playerConfig.load();
 				
 				if (isNull("Castle.Citadel.X", playerConfig)){
-					Main.log.info("[StrategyCraft] Config for " + playerName + " missing X for citadel. Rejecting...");
+					StrategyCraft.log.info("[StrategyCraft] Config for " + playerName + " missing X for citadel. Rejecting...");
 					continue;
 				}
 				int x = playerConfig.getInt("Castle.Citadel.X", -1);
 				if (isNull("Castle.Citadel.Y", playerConfig)){
-					Main.log.info("[StrategyCraft] Config for " + playerName + " missing Y for citadel. Rejecting...");
+					StrategyCraft.log.info("[StrategyCraft] Config for " + playerName + " missing Y for citadel. Rejecting...");
 					continue;
 				}
 				int y = playerConfig.getInt("Castle.Citadel.Y", -1);
 				if (isNull("Castle.Citadel.Z", playerConfig)){
-					Main.log.info("[StrategyCraft] Config for " + playerName + " missing Z for citadel. Rejecting...");
+					StrategyCraft.log.info("[StrategyCraft] Config for " + playerName + " missing Z for citadel. Rejecting...");
 					continue;
 				}
 				int z = playerConfig.getInt("Castle.Citadel.Z", -1);
 				
-				Main.log.info(Bukkit.getWorlds().get(1).getName());
+				StrategyCraft.log.info(Bukkit.getWorlds().get(1).getName());
 				World world = Bukkit.getWorld(playerConfig.getString("Castle.Citadel.world", null));
 				
 				if (world == null) {
-					Main.log.info("[StrategyCraft] Config for " + playerName + " missing world for citadel. Rejecting...");
+					StrategyCraft.log.info("[StrategyCraft] Config for " + playerName + " missing world for citadel. Rejecting...");
 					continue;
 				}
 				
@@ -134,14 +134,14 @@ public class Config {
 				
 				playerConfig.save();
 				
-				Main.log.info("[StrategyCraft] Castle for " + playerName + " loaded!");
+				StrategyCraft.log.info("[StrategyCraft] Castle for " + playerName + " loaded!");
 				
 			}
 		}
 		
-		Main.log.info("[StrategyCraft] Finished loading castles.");
+		StrategyCraft.log.info("[StrategyCraft] Finished loading castles.");
 		
-		Main.config.save();
+		StrategyCraft.config.save();
 	}
 
 	public Object getProperty(String path, Object def, Configuration config) {
