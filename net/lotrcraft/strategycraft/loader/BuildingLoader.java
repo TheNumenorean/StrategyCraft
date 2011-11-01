@@ -36,13 +36,10 @@ public class BuildingLoader {
 			jf.close();
 
 			d = new BuildingDescription(name,
-					new URLClassLoader(
-							new URL[] { file.toURI().toURL() })
-								.loadClass(building) //problemo
-									.asSubclass(Building.class),
-					new URLClassLoader(
-							new URL[] { file.toURI().toURL() }).loadClass(unit)
-							.asSubclass(Unit.class));
+					(Class<? extends Building>) new URLClassLoader(new URL[] { file.toURI().toURL() }, Main.class.getClassLoader())
+							.loadClass(building).cast(Building.class),
+					(Class<? extends Unit>) new URLClassLoader(new URL[] { file.toURI().toURL() }, Main.class.getClassLoader()).loadClass(unit)
+							.cast(Unit.class));
 
 		} catch (NullPointerException e) {
 			//Causing problems
