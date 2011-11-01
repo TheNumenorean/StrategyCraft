@@ -10,7 +10,7 @@ import java.util.jar.JarFile;
 
 import org.yaml.snakeyaml.Yaml;
 
-import net.lotrcraft.strategycraft.Main;
+import net.lotrcraft.strategycraft.StrategyCraft;
 import net.lotrcraft.strategycraft.buildings.Building;
 import net.lotrcraft.strategycraft.units.Unit;
 
