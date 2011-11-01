@@ -36,9 +36,9 @@ public class BuildingLoader {
 			jf.close();
 
 			d = new BuildingDescription(name,
-					(Class<? extends Building>) new URLClassLoader(new URL[] { file.toURI().toURL() }, Main.class.getClassLoader())
+					(Class<? extends Building>) new URLClassLoader(new URL[] { file.toURI().toURL() }, StrategyCraft.class.getClassLoader())
 							.loadClass(building).cast(Building.class),
-					(Class<? extends Unit>) new URLClassLoader(new URL[] { file.toURI().toURL() }, Main.class.getClassLoader()).loadClass(unit)
+					(Class<? extends Unit>) new URLClassLoader(new URL[] { file.toURI().toURL() }, StrategyCraft.class.getClassLoader()).loadClass(unit)
 							.cast(Unit.class));
 
 		} catch (NullPointerException e) {
