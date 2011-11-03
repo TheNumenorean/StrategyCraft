@@ -14,6 +14,7 @@ public abstract class Building {
 	public void build(Location l){
 		Schematic s = getSchematic();
 		byte[] bytes = s.getBlocks();
+		location = l;
 		
 		
 		/*
@@ -39,7 +40,7 @@ public abstract class Building {
 		for (int y = 0; y < s.getHeight(); y++){
 			for (int x = 0; x < s.getWidth(); x++){
 				for (int z = 0; z < s.getLength(); z++){
-					l.getWorld().getBlockAt(location).setData(bytes[y + x + z]);
+					l.getWorld().getBlockAt(location).setData(bytes[y*s.getHeight() + x*s.getWidth() + z]);
 				}
 			}
 		}
@@ -47,7 +48,14 @@ public abstract class Building {
 	}
 	
 	public void destroy(){
-		
+		Schematic s = getSchematic();
+		for (int y = 0; y < s.getHeight(); y++){
+			for (int x = 0; x < s.getWidth(); x++){
+				for (int z = 0; z < s.getLength(); z++){
+					location.getWorld().getBlockAt(location).setTypeId(0);
+				}
+			}
+		}
 	}
 	
 	public String getName(){
