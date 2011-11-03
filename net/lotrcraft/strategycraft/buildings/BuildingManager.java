@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import net.lotrcraft.strategycraft.Config;
+import net.lotrcraft.strategycraft.StrategyCraft;
 import net.lotrcraft.strategycraft.loader.BuildingDescription;
 
 import org.bukkit.Location;
@@ -124,6 +125,8 @@ public class BuildingManager {
 	}
 	
 	public static BuildingDescription getBuilding(String name){
+		if (bldgs == null)
+			return null;
 		for (int y = 0; y < bldgs.size(); y++){
 			if (bldgs.get(y).getName().equalsIgnoreCase(name)){
 				return bldgs.get(y);

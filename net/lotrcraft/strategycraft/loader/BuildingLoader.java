@@ -34,12 +34,9 @@ public class BuildingLoader {
 			name = (String) map.get("name");
 
 			jf.close();
-
-			d = new BuildingDescription(name,
-					(Class<? extends Building>) new URLClassLoader(new URL[] { file.toURI().toURL() }, StrategyCraft.class.getClassLoader())
-							.loadClass(building).cast(Building.class),
-					(Class<? extends Unit>) new URLClassLoader(new URL[] { file.toURI().toURL() }, StrategyCraft.class.getClassLoader()).loadClass(unit)
-							.cast(Unit.class));
+			
+			URLClassLoader ucl = new URLClassLoader(new URL[] { file.toURI().toURL() }, StrategyCraft.class.getClassLoader());
+			d = new BuildingDescription(name, Class.forName(building, true, ucl).asSubclass(Building.class), Class.forName(unit, true, ucl).asSubclass(Unit.class));
 
 		} catch (NullPointerException e) {
 			//Causing problems

@@ -10,6 +10,7 @@ public class BuildingDescription {
 	private String name;
 	
 	public BuildingDescription(String name, Class<? extends Building> buildingClass, Class<? extends Unit> unitClass) {
+		this.name = name;
 		this.building = buildingClass;
 		this.unit = unitClass;
 	}
