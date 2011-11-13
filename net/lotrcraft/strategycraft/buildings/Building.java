@@ -1,5 +1,6 @@
 package net.lotrcraft.strategycraft.buildings;
 
+import net.lotrcraft.strategycraft.schematic.MissingSchematicError;
 import net.lotrcraft.strategycraft.schematic.Schematic;
 
 import org.bukkit.Location;
@@ -62,8 +63,14 @@ public abstract class Building {
 		return this.getClass().getName().substring(0, this.getClass().getName().indexOf('.'));
 	}
 	
-	Schematic getSchematic(){
-		return new Schematic(getClass().getClassLoader().getResourceAsStream(getName() + ".schematic"));
+	public Schematic getSchematic(){
+		try {
+			return new Schematic(getClass().getClassLoader().getResourceAsStream(getName() + ".schematic"));
+		} catch (MissingSchematicError e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	BuildingManager getBuildingManager(){

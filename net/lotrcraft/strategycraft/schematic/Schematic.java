@@ -19,12 +19,16 @@ import org.jnbt.Tag;
 public class Schematic {
 	Map<String, Tag> schematic = null;
 
-	public Schematic(InputStream f) {
+	public Schematic(InputStream f) throws MissingSchematicError {
+		
+		if (f== null)
+			throw new MissingSchematicError("Invalid Schematic Input Stream");
+		
 		try {
 			schematic = ((CompoundTag) new NBTInputStream(f).readTag())
 					.getValue();
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new MissingSchematicError("Can't find schematic " + f + " !");
 		}
 	}
 

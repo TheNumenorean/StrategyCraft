@@ -39,7 +39,6 @@ public class StrategyCraft extends JavaPlugin {
 		
 		Bukkit.getScheduler().scheduleAsyncRepeatingTask(this, new ConfSaver(this), Config.saveFrequency, Config.saveFrequency);
 		
-		
 
 		
 		if (BuildingManager.getBuilding("Citadel") == null) {
