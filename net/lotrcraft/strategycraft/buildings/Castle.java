@@ -32,7 +32,7 @@ public class Castle {
 	 */
 	public Building getBuildingAtLoc(Location l){
 		for (int y = 0; y < buildings.size(); y++){
-			if (buildings.get(y).location == l)
+			if (buildings.get(y).getLocation() == l)
 				return buildings.get(y);
 		}
 		return null;

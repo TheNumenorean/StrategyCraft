@@ -1,5 +1,6 @@
 package net.lotrcraft.strategycraft.buildings;
 
+import net.lotrcraft.strategycraft.StrategyCraft;
 import net.lotrcraft.strategycraft.schematic.MissingSchematicError;
 import net.lotrcraft.strategycraft.schematic.Schematic;
 
@@ -8,9 +9,9 @@ import org.bukkit.block.BlockFace;
 
 public abstract class Building {
 	
-	static Castle castle;
+	private Castle castle;
 	
-	static Location location;
+	private Location location;
 	
 	public void build(Location l){
 		Schematic s = getSchematic();
@@ -41,7 +42,7 @@ public abstract class Building {
 		for (int y = 0; y < s.getHeight(); y++){
 			for (int x = 0; x < s.getWidth(); x++){
 				for (int z = 0; z < s.getLength(); z++){
-					l.getWorld().getBlockAt(location).setData(bytes[y*s.getHeight() + x*s.getWidth() + z]);
+					l.getWorld().getBlockAt(location.getBlockX() - (s.getWidth()/2), location.getBlockY() - (s.getHeight()/2), location.getBlockZ() - (s.getLength()/2)).setData(bytes[y*s.getHeight() + x*s.getWidth() + z]);
 				}
 			}
 		}
@@ -53,17 +54,19 @@ public abstract class Building {
 		for (int y = 0; y < s.getHeight(); y++){
 			for (int x = 0; x < s.getWidth(); x++){
 				for (int z = 0; z < s.getLength(); z++){
-					location.getWorld().getBlockAt(location).setTypeId(0);
+					location.getWorld().getBlockAt(location).setTypeId(1);
 				}
 			}
 		}
 	}
 	
 	public String getName(){
-		return this.getClass().getName().substring(0, this.getClass().getName().indexOf('.'));
+		String s = this.getClass().getName();
+		return s.substring(s.lastIndexOf(".") + 1);
 	}
 	
 	public Schematic getSchematic(){
+		StrategyCraft.log.info(getName());
 		try {
 			return new Schematic(getClass().getClassLoader().getResourceAsStream(getName() + ".schematic"));
 		} catch (MissingSchematicError e) {
@@ -85,6 +88,10 @@ public abstract class Building {
 
 	public void setCastle(Castle cstl) {
 		this.castle = cstl;
+	}
+	
+	public Location getLocation(){
+		return location;
 	}
 
 

@@ -4,7 +4,7 @@
               To include a user specific buildfile here, simply create one in the same
               directory with the processing instruction <?eclipse.ant.import?>
               as the first entry and export the buildfile again. -->
-<project basedir="." default="build" name="StrategyCraft">
+<project basedir="." default="jar" name="StrategyCraft">
     <property environment="env"/>
     <property name="ECLIPSE_HOME" value="../../eclipse"/>
     <property name="debuglevel" value="source,lines,vars"/>
@@ -29,6 +29,7 @@
     <target depends="clean" name="cleanall"/>
     <target depends="build-subprojects,build-project" name="build"/>
     <target name="build-subprojects"/>
+	
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>
     	<mkdir dir="files"/>
@@ -38,6 +39,7 @@
             <classpath refid="StrategyCraft.classpath"/>
         </javac>
     </target>
+	
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
     <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
         <copy todir="${ant.library.dir}">
