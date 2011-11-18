@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.lotrcraft.strategycraft.Config;
+import net.lotrcraft.strategycraft.StrategyCraft;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -27,7 +28,7 @@ public class Castle {
 	
 	/**
 	 * Gets a building at a specific location.
-	 * @param l
+	 * @param l The Location
 	 * @return The building if this castle has a building registered at the location. Null if not.
 	 */
 	public Building getBuildingAtLoc(Location l){
@@ -52,7 +53,7 @@ public class Castle {
 	 * 
 	 * @param building Building to add.
 	 * @param blockFace 
-	 * @param blockLoc 
+	 * @param blockLoc Location of Core Block
 	 * @return True if succesful
 	 */
 	public boolean addBuilding(Building building, Location blockLoc, BlockFace blockFace){
