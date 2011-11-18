@@ -38,11 +38,19 @@ public abstract class Building {
 			
 		}
 		*/
+
 		
 		for (int y = 0; y < s.getHeight(); y++){
 			for (int x = 0; x < s.getWidth(); x++){
 				for (int z = 0; z < s.getLength(); z++){
-					l.getWorld().getBlockAt(location.getBlockX() - (s.getWidth()/2), location.getBlockY() - (s.getHeight()/2), location.getBlockZ() - (s.getLength()/2)).setData(bytes[y*s.getHeight() + x*s.getWidth() + z]);
+					
+					Location tmpLoc = new Location(location.getWorld(), 
+							location.getBlockX() - (s.getWidth()/2) + x,
+							location.getBlockY() - (s.getHeight()/2) + y, 
+							location.getBlockZ() - (s.getLength()/2) + z);
+					
+					System.out.println(tmpLoc);
+					l.getWorld().getBlockAt(tmpLoc).setData(bytes[y*s.getHeight() + x*s.getWidth() + z]);
 				}
 			}
 		}
@@ -66,7 +74,6 @@ public abstract class Building {
 	}
 	
 	public Schematic getSchematic(){
-		StrategyCraft.log.info(getName());
 		try {
 			return new Schematic(getClass().getClassLoader().getResourceAsStream(getName() + ".schematic"));
 		} catch (MissingSchematicError e) {

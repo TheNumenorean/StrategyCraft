@@ -75,6 +75,8 @@ public class Config {
 		
 		StrategyCraft.log.info("[StrategyCraft] Finished loading buildings.");
 	
+		
+		
 		Configuration config = StrategyCraft.config;
 		config.load();
 		coreBlock =  getInt("coreBlock", 49, config);
@@ -119,11 +121,14 @@ public class Config {
 				}
 				int z = playerConfig.getInt("Castle.Citadel.Z", -1);
 				
-				StrategyCraft.log.info(Bukkit.getWorlds().get(1).getName());
-				World world = Bukkit.getWorld(playerConfig.getString("Castle.Citadel.world", null));
+				if (isNull("Castle.Citadel.World", playerConfig)){
+					StrategyCraft.log.info("[StrategyCraft] Config for " + playerName + " missing World for citadel. Rejecting...");
+					continue;
+				}
+				World world = Bukkit.getWorld(playerConfig.getString("Castle.Citadel.World", "world"));
 				
 				if (world == null) {
-					StrategyCraft.log.info("[StrategyCraft] Config for " + playerName + " missing world for citadel. Rejecting...");
+					StrategyCraft.log.info("[StrategyCraft] Server is missing world defined for " + playerName + "'s citadel. Rejecting...");
 					continue;
 				}
 				
