@@ -49,7 +49,6 @@ public abstract class Building {
 							location.getBlockY() - (s.getHeight()/2) + y, 
 							location.getBlockZ() - (s.getLength()/2) + z);
 					
-					System.out.println(tmpLoc);
 					l.getWorld().getBlockAt(tmpLoc).setData(bytes[y*s.getHeight() + x*s.getWidth() + z]);
 				}
 			}
