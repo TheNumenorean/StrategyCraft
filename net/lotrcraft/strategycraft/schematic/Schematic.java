@@ -25,6 +25,17 @@ import org.jnbt.Tag;
 
 public class Schematic {
 	
+	
+	//This function was taken from WorldEdit as a prototype for a schematic reader personalised for StrategyCraft,
+	// any of this code yet. once i have added my own code i will mark the places that remain from the WE code.
+	
+	/**
+	 * 
+	 * @param path
+	 * @return
+	 * @throws SchematicReadException
+	 * @throws IOException
+	 */
     public static Schematic loadSchematic(File path)
             throws SchematicReadException, IOException {
         FileInputStream stream = new FileInputStream(path);
