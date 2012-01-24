@@ -29,21 +29,33 @@ public class StrategyCraft extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
+		//TODO: This was written before configuration update, needs to be re-done.
+		//Loads settings from config file.
 		config = this.getConfiguration();
 		Config.load();
 		
 		pm = this.getServer().getPluginManager();
+		
+		//Listener for listening for whe a castle is  destroyed
 		pm.registerEvent(Type.BLOCK_BREAK, new BlockBreakListener(), Priority.Normal, this);
+		
+		//TODO: Later to protect from meerly blowing up buildings
 		//pm.registerEvent(Type.BLOCK_PLACE, new BlockPlaceListener(), Priority.Normal, this);
+		
+		//For registering when a new building is created
 		pm.registerEvent(Type.SIGN_CHANGE, new SignPlaced(), Priority.Normal, this);
 		
+		//Listen for right click on sign. For unit creation
+		//pm.registerEvent(Type.PLAYER_INTERACT, new PlayerInteractListener(), Priority.Normal, this);
+		
+		//Schedules periodic saves so as not to overload server when saving
 		Bukkit.getScheduler().scheduleAsyncRepeatingTask(this, new ConfSaver(this), Config.saveFrequency, Config.saveFrequency);
 		
-
 		
+		//Checks to make sure there is a 'citadel' building, as SC cant run without it.
 		if (BuildingManager.getBuilding("Citadel") == null) {
 			log.severe("[StrategyCraft] Can't find Citadel.jar! Disabling...");
-			this.pm.disablePlugin(this);
+			pm.disablePlugin(this);
 			return;
 		}
 		
