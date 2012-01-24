@@ -31,31 +31,37 @@ public class Config {
 
 	public static void load() {
 		
+		//TODO: Change to New configuration
+		//TODO: Change to MySQL!
+		
 		StrategyCraft.log.info("[StrategyCraft] Loading Buildings...");
+		
+		//Make sure building folder exists
 		if (!buildingFolder.exists()){
 			buildingFolder.mkdirs();
+			return;
 		} else {
 		
 			File[] buildings = buildingFolder.listFiles();
 			if (buildings.length != 0){
 				
 				for (int y = 0; y < buildings.length; y++){
-					if (!buildings[y].getName().contains(".jar") || !buildings[y].isFile())
+					if (!buildings[y].getName().endsWith(".jar") || !buildings[y].isFile())
 						continue;
 					
 					StrategyCraft.log.info("[StrategyCraft] Found building " + buildings[y].getName() +", attempting to load...");
 					
 					try {
+						
+						//Passes file to BuildingLoader. Will return true if successful
 						if (!BuildingManager.addBuildingType(BuildingLoader.loadBuilding(buildings[y]))){
 							StrategyCraft.log.warning("[StrategyCraft] Building " + buildings[y].getName() +" unable to load, check to make sure you dont have duplicates in your buildings folder.");
 							continue;
 						}
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 						continue;
 					} catch (InvalidBuildingConfException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 						continue;
 					}
@@ -64,19 +70,22 @@ public class Config {
 				}
 				
 			} else {
+				
+				//Since there arent any buildings, return, and let main file realize lack of Citadel
 				StrategyCraft.log.severe("[StrategyCraft] Can't find any buildings!");
+				return;
 			}
 		}
 		
-
-
-		
-		
+		//Check to make sure it loaded a Citadel building
+		if (BuildingManager.getBuilding("Citadel") == null) {
+			return;
+		}
 		
 		StrategyCraft.log.info("[StrategyCraft] Finished loading buildings.");
 	
-		
-		
+		//Gets values from main config file
+		//TODO: Update
 		Configuration config = StrategyCraft.config;
 		config.load();
 		coreBlock =  getInt("coreBlock", 49, config);
@@ -85,6 +94,10 @@ public class Config {
 		
 		StrategyCraft.log.info("[StrategyCraft] Loading Castles...");
 		
+		//Load Player files
+		//TODO: replace with MySql!
+		
+		//Check to make sure playerDataFolder exists
 		if (!playerDataFolder.exists()){
 			playerDataFolder.mkdirs();
 		} else {

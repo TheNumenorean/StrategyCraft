@@ -20,34 +20,42 @@ public class ConfSaver implements Runnable {
 	@Override
 	public void run() {
 		
+		//TODO: Change to MySQL!
+		
+		//Just in case
 		Config.playerDataFolder.mkdirs();
 		
+		//If there are no castle to save
 		if (BuildingManager.getCastles().isEmpty())
 			return;
 		
 		StrategyCraft.log.info("[StrategyCraft] Saving castles...");
 		
-		File file;
 		List<Castle> c = BuildingManager.getCastles();
 		
-		for (int y = 0; y < c.size(); y++){
-			file = new File(Config.playerDataFolder.getPath() + File.separator + c.get(y).getOwner() + ".yml");
+		for (Castle castle : c){
+			//Gets next acceptable player data file 
+			File file = new File(Config.playerDataFolder.getPath() + File.separator + castle.getOwner() + ".yml");
 			try {
 				file.createNewFile();
 			} catch (IOException e) {
 				StrategyCraft.log.severe("Can't save Player files!");
 			}
 			
+			//TODO: Update to new Config
+			//Gets config for player and saves Citadel Data
 			Configuration config = new Configuration(file);
 			
-			config.setProperty("Castle.Citadel.X", c.get(y).getLocation().getBlockX());
-			config.setProperty("Castle.Citadel.Y", c.get(y).getLocation().getBlockY());
-			config.setProperty("Castle.Citadel.Z", c.get(y).getLocation().getBlockZ());
-			config.setProperty("Castle.Citadel.World", c.get(y).getLocation().getWorld().getName());
+			config.setProperty("Castle.Citadel.X", castle.getLocation().getBlockX());
+			config.setProperty("Castle.Citadel.Y", castle.getLocation().getBlockY());
+			config.setProperty("Castle.Citadel.Z", castle.getLocation().getBlockZ());
+			config.setProperty("Castle.Citadel.World", castle.getLocation().getWorld().getName());
+			
+			//TODO: Add building save data (not until MySQL added)
 			
 			config.save();
 			
-			StrategyCraft.log.info("[StrategyCraft] Castle for " + c.get(y).getOwner() + " saved!");
+			StrategyCraft.log.info("[StrategyCraft] Castle for " + castle.getOwner() + " saved!");
 		}
 		
 		StrategyCraft.log.info("[StrategyCraft] Finished saving!");

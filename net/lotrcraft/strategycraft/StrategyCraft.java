@@ -48,7 +48,7 @@ public class StrategyCraft extends JavaPlugin {
 		//Listen for right click on sign. For unit creation
 		//pm.registerEvent(Type.PLAYER_INTERACT, new PlayerInteractListener(), Priority.Normal, this);
 		
-		//Schedules periodic saves so as not to overload server when saving
+		//Schedules periodic saves so as not to overload server when saving by saving too often. Done in new thread due to risk of 
 		Bukkit.getScheduler().scheduleAsyncRepeatingTask(this, new ConfSaver(this), Config.saveFrequency, Config.saveFrequency);
 		
 		
