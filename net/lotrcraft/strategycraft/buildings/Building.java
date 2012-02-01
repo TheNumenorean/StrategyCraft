@@ -9,10 +9,17 @@ import org.bukkit.block.BlockFace;
 
 public abstract class Building {
 	
+	
 	private Castle castle;
 	
 	private Location location;
 	
+	/**
+	 * Build this building at a given location. By default this will use 
+	 * the supplied schematic to build.
+	 * 
+	 * @param l Location to build at
+	 */
 	public void build(Location l){
 		Schematic s = getSchematic();
 		byte[] bytes = s.getBlocks();
@@ -56,7 +63,11 @@ public abstract class Building {
 		
 	}
 	
+	/**
+	 * Destroys this building by setting all the previously created blocks to air.
+	 */
 	public void destroy(){
+		//TODO: Doesnt work yet.
 		Schematic s = getSchematic();
 		for (int y = 0; y < s.getHeight(); y++){
 			for (int x = 0; x < s.getWidth(); x++){
@@ -67,11 +78,19 @@ public abstract class Building {
 		}
 	}
 	
+	/**
+	 * Gets the name of this Building
+	 * @return The building name
+	 */
 	public String getName(){
 		String s = this.getClass().getName();
 		return s.substring(s.lastIndexOf(".") + 1);
 	}
 	
+	/**
+	 * Gets this building's schematic. This will look inside the building's jar for a schematic labeled <buildingname>.schematic
+	 * @return The Schematic, or null if it isnt found.
+	 */
 	public Schematic getSchematic(){
 		try {
 			return new Schematic(getClass().getClassLoader().getResourceAsStream(getName() + ".schematic"));
