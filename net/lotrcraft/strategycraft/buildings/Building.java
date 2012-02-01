@@ -101,7 +101,11 @@ public abstract class Building {
 		return null;
 	}
 	
-	BuildingManager getBuildingManager(){
+	/**
+	 * Gets the local building manager.
+	 * @return A new instance of BuildingManager
+	 */
+	public BuildingManager getBuildingManager(){
 		BuildingManager bm = new BuildingManager();
 		return bm;
 	}
