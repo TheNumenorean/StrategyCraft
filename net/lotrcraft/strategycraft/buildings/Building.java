@@ -110,15 +110,27 @@ public abstract class Building {
 		return bm;
 	}
 
+	/**
+	 * Gets the castle that this building is crrently in.
+	 * @return The castle
+	 */
 	public Castle getCastle() {
 		return castle;
 		
 	}
 
+	/**
+	 * Sets this building's castle.
+	 * @param cstl The castle
+	 */
 	public void setCastle(Castle cstl) {
 		this.castle = cstl;
 	}
 	
+	/**
+	 * Gets the location of the center blcok of this building.
+	 * @return The location
+	 */
 	public Location getLocation(){
 		return location;
 	}

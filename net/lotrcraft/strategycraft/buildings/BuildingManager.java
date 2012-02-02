@@ -124,12 +124,17 @@ public class BuildingManager {
 		return null;
 	}
 	
+	/**
+	 * Gets the building description the  named building type.
+	 * @param name Name of the building
+	 * @return The correct building decription, or null if one cant be found.m
+	 */
 	public static BuildingDescription getBuilding(String name){
 		if (bldgs == null)
 			return null;
-		for (int y = 0; y < bldgs.size(); y++){
-			if (bldgs.get(y).getName().equalsIgnoreCase(name)){
-				return bldgs.get(y);
+		for (BuildingDescription b : bldgs){
+			if (b.getName().equalsIgnoreCase(name)){
+				return b;
 			}
 		}
 		return null;
